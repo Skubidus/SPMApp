@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SPMApp.WpfUI.ViewModels"
         xmlns:local="clr-namespace:SPMApp.WpfUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        Title="Skubi's Password Manager" Height="480" Width="1024" FontSize="20" FontFamily="Segoe UI">
+    
     <Grid>
 
     </Grid>
