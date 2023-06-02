@@ -4,4 +4,8 @@ namespace SPMApp.WpfUI.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
+    public MainWindowViewModel()
+    {
+        
+    }
 }
