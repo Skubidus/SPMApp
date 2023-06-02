@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:SPMApp.WpfUI"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
-        Title="Skubi's Password Manager" Height="480" Width="1024" FontSize="20" FontFamily="Segoe UI">
+        Title="Skubi's Password Manager" Height="768" Width="1024" FontSize="20" FontFamily="Segoe UI" Closed="Window_Closed">
     
     <Grid>
 

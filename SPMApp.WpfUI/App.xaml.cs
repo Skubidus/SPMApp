@@ -30,9 +30,11 @@ public partial class App : Application
 
         // configure services here
         #region Service configuration
+        // Views and ViewModel services
         services.AddTransient<MainWindow>();
         services.AddTransient<MainWindowViewModel>();
 
+        // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
         //services.AddTransient<IDatabaseData, SqLiteData>();
 
