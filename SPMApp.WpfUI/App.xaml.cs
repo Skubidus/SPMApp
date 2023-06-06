@@ -6,6 +6,7 @@ using SPMLibrary.DataAccess;
 using System.IO;
 using System;
 using System.Windows;
+using SPMApp.WpfUI.Views;
 
 namespace SPMApp.WpfUI;
 
@@ -27,23 +28,26 @@ public partial class App : Application
             .AddJsonFile("appsettings.json");
 
         IConfiguration config = builder.Build();
+        ConfigureServices(services, config);
+        Services = services.BuildServiceProvider();
 
-        // configure services here
-        #region Service configuration
+        var mainWindow = Services.GetRequiredService<MainWindow>();
+        mainWindow.Show();
+    }
+
+    private static void ConfigureServices(ServiceCollection services, IConfiguration config)
+    {
         // Views and ViewModel services
         services.AddTransient<MainWindow>();
         services.AddTransient<MainWindowViewModel>();
+
+        services.AddTransient<LeftMenuView>();
+        services.AddTransient<LeftMenuViewModel>();
 
         // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
         //services.AddTransient<IDatabaseData, SqLiteData>();
 
         services.AddSingleton(config);
-        #endregion
-
-        Services = services.BuildServiceProvider();
-
-        var mainWindow = Services.GetRequiredService<MainWindow>();
-        mainWindow.Show();
     }
 }
