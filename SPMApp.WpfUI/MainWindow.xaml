@@ -4,12 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SPMApp.WpfUI.ViewModels"
-        xmlns:local="clr-namespace:SPMApp.WpfUI"
+        xmlns:local="clr-namespace:SPMApp.WpfUI" xmlns:views="clr-namespace:SPMApp.WpfUI.Views"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         Title="Skubi's Password Manager" Height="768" Width="1024" FontSize="20" FontFamily="Segoe UI" Closed="Window_Closed">
-    
-    <Grid>
+
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <views:LeftMenuView Grid.Column="0" />
+        <views:LeftMenuView Grid.Column="2" />
 
     </Grid>
 </Window>

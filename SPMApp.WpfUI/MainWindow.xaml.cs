@@ -3,7 +3,6 @@
 using SPMApp.WpfUI.ViewModels;
 
 using System;
-using System.Reflection;
 using System.Windows;
 
 namespace SPMApp.WpfUI;
@@ -17,10 +16,10 @@ public partial class MainWindow : Window
 
     public MainWindowViewModel ViewModel { get; }
 
-    public MainWindow(IConfiguration config, MainWindowViewModel vm)
+    public MainWindow(IConfiguration config, MainWindowViewModel viewModel)
     {
         _config = config;
-        ViewModel = vm;
+        ViewModel = viewModel;
         DataContext = ViewModel;
 
         InitializeComponent();
@@ -40,8 +39,11 @@ public partial class MainWindow : Window
 
     private void SaveMainWindowSettings(double windowWidth, double windowHeight, WindowState windowState)
     {
-        // TODO: Find out how to write values back to the _config (appsettings.json)
-        throw new NotImplementedException();
+        _config["WindowWidth"] = windowWidth.ToString();
+        _config["WindowHeight"] = windowHeight.ToString();
+        _config["WindowMaximized"] = windowState == WindowState.Maximized
+                                                        ? true.ToString()
+                                                        : false.ToString();
     }
 
     private (int windowWidth, int windowHeight, bool isWindowMaximized) GetCustomWindowSettings()
