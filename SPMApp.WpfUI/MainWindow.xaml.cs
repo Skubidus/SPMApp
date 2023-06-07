@@ -2,7 +2,6 @@
 
 using SPMApp.WpfUI.ViewModels;
 
-using System;
 using System.Windows;
 
 namespace SPMApp.WpfUI;
@@ -37,15 +36,6 @@ public partial class MainWindow : Window
             : WindowState.Normal;
     }
 
-    private void SaveMainWindowSettings(double windowWidth, double windowHeight, WindowState windowState)
-    {
-        _config["WindowWidth"] = windowWidth.ToString();
-        _config["WindowHeight"] = windowHeight.ToString();
-        _config["WindowMaximized"] = windowState == WindowState.Maximized
-                                                        ? true.ToString()
-                                                        : false.ToString();
-    }
-
     private (int windowWidth, int windowHeight, bool isWindowMaximized) GetCustomWindowSettings()
     {
         var windowWidth = _config.GetValue<int?>("WindowWidth")
@@ -58,10 +48,5 @@ public partial class MainWindow : Window
             ?? _config.GetValue<bool?>("DefaultWindowMaximized");
 
         return (windowWidth!.Value, windowHeight!.Value, isWindowMaximized!.Value);
-    }
-
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        SaveMainWindowSettings(this.Width, this.Height, this.WindowState);
     }
 }
