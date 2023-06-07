@@ -1,9 +1,9 @@
 ﻿using Dapper;
 
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
 using System.Data;
+using System.Data.SQLite;
 
 namespace SPMLibrary.DataAccess;
 
@@ -27,7 +27,7 @@ public class SqLiteDataAccess : ISqLiteDataAccess
             throw new InvalidOperationException($"Could not find the connection string {connectionStringName}.");
         }
 
-        using IDbConnection connection = new SqliteConnection(connectionString);
+        using IDbConnection connection = new SQLiteConnection(connectionString);
 
         List<T> rows = connection.Query<T>(sqlStatement, parameters).ToList();
 
@@ -45,7 +45,7 @@ public class SqLiteDataAccess : ISqLiteDataAccess
             throw new InvalidOperationException($"Could not find the connection string {connectionStringName}.");
         }
 
-        using IDbConnection connection = new SqliteConnection(connectionString);
+        using IDbConnection connection = new SQLiteConnection(connectionString);
 
         connection.Execute(sqlStatement, parameters);
     }
