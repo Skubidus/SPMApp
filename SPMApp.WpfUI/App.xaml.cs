@@ -7,6 +7,7 @@ using System.IO;
 using System;
 using System.Windows;
 using SPMApp.WpfUI.Views;
+using SPMLibrary.Data;
 
 namespace SPMApp.WpfUI;
 
@@ -46,7 +47,7 @@ public partial class App : Application
 
         // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
-        //services.AddTransient<IDatabaseData, SqLiteData>();
+        services.AddTransient<SqLiteData>();
 
         services.AddSingleton(config);
     }
