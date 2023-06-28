@@ -3,7 +3,7 @@ using SPMLibrary.Models;
 
 namespace SPMLibrary.Data;
 
-public class SqLiteData
+public class SqLiteData : ISqLiteData
 {
     private readonly ISqLiteDataAccess _db;
     private const string _connectionStringName = "SqLiteDb";
@@ -18,7 +18,7 @@ public class SqLiteData
         string sql = @" SELECT Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
                         FROM Entries e;";
 
-        var entries = _db.SqlQuery<Entry, dynamic>(sql, new {}, _connectionStringName);
+        var entries = _db.SqlQuery<Entry, dynamic>(sql, new { }, _connectionStringName);
 
         foreach (var entry in entries)
         {
@@ -44,7 +44,42 @@ public class SqLiteData
             throw new ArgumentOutOfRangeException(nameof(id));
         }
 
-        throw new NotImplementedException();
+        string sql = @" SELECT Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
+                        FROM Entries e
+                        WHERE e.Id = @Id;";
+
+        var entry = _db.SqlQuery<Entry, dynamic>(
+            sql,
+            new { Id = id },
+            _connectionStringName).FirstOrDefault();
+
+        if (entry is not null)
+        {
+            entry.Tags = GetTagsForEntry(entry.Id);
+        }
+
+        return entry;
+    }
+
+    private List<Tag> GetTagsForEntry(int entryId)
+    {
+        if (entryId < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(entryId));
+        }
+
+        string sql = @"SELECT t.Id, t.Title
+                    FROM Tags t
+                    JOIN EntriesTags et
+                        ON et.TagId = t.Id
+                        AND et.EntryId = @EntryId;";
+
+        var tags = _db.SqlQuery<Tag, dynamic>(
+            sql,
+            new { EntryId = entryId },
+            _connectionStringName);
+
+        return tags;
     }
 
     public void InsertEntry(Entry entry)

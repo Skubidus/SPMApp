@@ -45,9 +45,12 @@ public partial class App : Application
         services.AddTransient<LeftMenuView>();
         services.AddTransient<LeftMenuViewModel>();
 
+        services.AddTransient<EntryListView>();
+        services.AddTransient<EntryListViewModel>();
+
         // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
-        services.AddTransient<SqLiteData>();
+        services.AddTransient<ISqLiteData, SqLiteData>();
 
         services.AddSingleton(config);
     }

@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <views:LeftMenuView Grid.Column="0" />
-        <views:LeftMenuView Grid.Column="2" />
+        <views:EntryListView Grid.Column="2" />
 
     </Grid>
 </Window>

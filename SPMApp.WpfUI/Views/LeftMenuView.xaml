@@ -12,7 +12,7 @@
     <Grid>
         <Border BorderThickness="1" BorderBrush="#FF2D2D2D">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Settings" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding Path=PageTitle}" HorizontalAlignment="Center" />
             </StackPanel>
         </Border>
     </Grid>
