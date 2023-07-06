@@ -15,26 +15,45 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Label Content="Search:" HorizontalAlignment="Right" Margin="0 0 10 0"/>
-                    <TextBox x:Name="SearchText" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" MinWidth="400" />
-                    <Button x:Name="SearchButton" Content="Search" Command="{Binding Path=SearchButtonClickCommand}" Margin="10 0 0 0" Padding="25 0" />
+                    <TextBox TabIndex="1" x:Name="SearchText" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" MinWidth="400" />
+                    <Button x:Name="SearchButton" Content="Search" Command="{Binding Path=SearchButtonClickCommand}" Margin="10 0 0 0" Padding="25 0" IsDefault="True" />
+                    <Button x:Name="ClearSearchButton" Content="X" Command="{Binding Path=ClearSearchButtonClickCommand}" FontWeight="ExtraBold" Margin="10 0 0 0" Padding="10 0" />
                 </StackPanel>
+
+
 
                 <ListBox x:Name="EntryListBox" ItemsSource="{Binding Path=Entries}" Margin="0 20 0 0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10" Padding="5" HorizontalAlignment="Stretch">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Titel" FontSize="24" />
+                                    <TextBlock Text="{Binding Path=Title}" FontSize="24" />
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Website URL" FontSize="16" />
-                                        <TextBlock Text="Notes" FontSize="16" />
+
+                                        <ListBox x:Name="TagsListBox" ItemsSource="{Binding Path=Tags}" BorderBrush="{x:Null}" BorderThickness="0" Margin="-5 0 0 0">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="5" Padding="5 2" HorizontalAlignment="Stretch">
+                                                        <TextBlock Text="{Binding Path=Title}" FontSize="14" />
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+
+                                        <TextBlock Text="{Binding Path=WebsiteUrl}" FontSize="16" />
+                                        <TextBlock Text="{Binding Path=Notes}" FontSize="16" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                
+
             </StackPanel>
         </Border>
     </Grid>

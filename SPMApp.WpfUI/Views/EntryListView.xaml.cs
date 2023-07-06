@@ -5,6 +5,7 @@ using SPMApp.WpfUI.ViewModels;
 using System.ComponentModel;
 using System;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace SPMApp.WpfUI.Views
 {
@@ -33,6 +34,22 @@ namespace SPMApp.WpfUI.Views
             DataContext = ViewModel;
 
             InitializeComponent();
+
+            ViewModel.EntriesFiltered += ViewModel_EntriesFiltered;
+            ViewModel.FilterCleared += ViewModel_FilterCleared;
+
+            SearchText.Focus();
+        }
+
+        private void ViewModel_FilterCleared(object? sender, bool e)
+        {
+            SearchText.Clear();
+            SearchText.Focus();
+        }
+
+        private void ViewModel_EntriesFiltered(object? sender, bool e)
+        {
+            SearchText.Focus();
         }
     }
 }
