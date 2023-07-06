@@ -10,19 +10,33 @@
              d:DataContext="{d:DesignInstance Type=vm:EntryListViewModel}">
     <Grid>
         <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10">
-            <StackPanel Orientation="Vertical" Margin="25 0">
-                <TextBlock Text="{Binding Path=PageTitle}" FontSize="28" HorizontalAlignment="Center" Margin="0 10 0 20" />
+            <Grid Margin="25 0">
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding Path=PageTitle}" FontSize="28" HorizontalAlignment="Center" Margin="0 10 0 20" />
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Label Content="Search:" HorizontalAlignment="Right" Margin="0 0 10 0"/>
                     <TextBox TabIndex="1" x:Name="SearchText" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" MinWidth="400" />
                     <Button x:Name="SearchButton" Content="Search" Command="{Binding Path=SearchButtonClickCommand}" Margin="10 0 0 0" Padding="25 0" IsDefault="True" />
                     <Button x:Name="ClearSearchButton" Content="X" Command="{Binding Path=ClearSearchButtonClickCommand}" FontWeight="ExtraBold" Margin="10 0 0 0" Padding="10 0" />
                 </StackPanel>
 
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+                    <TextBlock Text="Showing" />
+                    <TextBlock x:Name="ShownEntryCountText" Text="{Binding Path=Entries.Count}" FontWeight="ExtraBold" Margin="5 0" />
+                    <TextBlock Text="out of" />
+                    <TextBlock x:Name="EntryCountText" Text="{Binding Path=EntryCacheCount}" FontWeight="ExtraBold" Margin="5 0" />
+                    <TextBlock Text="entries." />
+                </StackPanel>
 
-
-                <ListBox x:Name="EntryListBox" ItemsSource="{Binding Path=Entries}" Margin="0 20 0 0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}">
+                <ListBox Grid.Row="3" Height="auto" x:Name="EntryListBox" ItemsSource="{Binding Path=Entries}" Margin="0 20 0 0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10" Padding="5" HorizontalAlignment="Stretch">
@@ -54,7 +68,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-            </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

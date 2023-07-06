@@ -28,6 +28,9 @@ public partial class EntryListViewModel : ObservableObject
 
     private readonly List<Entry> _entryCache = new();
 
+    [ObservableProperty]
+    private int _entryCacheCount;
+
     private readonly ObservableCollection<Entry> _entries = new();
     public ObservableCollection<Entry> Entries => _entries;
 
@@ -49,6 +52,7 @@ public partial class EntryListViewModel : ObservableObject
         _entryCache.Clear();
 
         entries.ForEach(e => { _entryCache.Add(e); });
+        EntryCacheCount = _entryCache.Count;
     }
 
     public void GetAllEntriesFromCache(bool updateCache = false)
