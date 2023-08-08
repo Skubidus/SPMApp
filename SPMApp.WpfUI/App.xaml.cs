@@ -48,6 +48,9 @@ public partial class App : Application
         services.AddTransient<EntryListView>();
         services.AddTransient<EntryListViewModel>();
 
+        services.AddTransient<EntryView>();
+        services.AddTransient<EntryViewModel>();
+
         // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
         services.AddTransient<ISqLiteData, SqLiteData>();
