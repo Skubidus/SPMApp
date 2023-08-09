@@ -1,8 +1,9 @@
 ﻿namespace SPMApp.WpfUI;
 
-public enum EntryReturnStates
+public enum ViewsEnum
 {
-    Unchanged,
-    Updated,
-    Deleted
+    MainWindow,
+    LeftMenuView,
+    EntryListView,
+    EntryView,
 }
