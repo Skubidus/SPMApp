@@ -16,8 +16,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <views:LeftMenuView Grid.Column="0" />
-        <views:EntryListView Grid.Column="2" />
+        <!--<views:LeftMenuView Grid.Column="0" />-->
+        <!--<views:EntryListView Grid.Column="2" />-->
+        <UserControl x:Name="LeftMainView" Grid.Column="0" Content="{Binding Path=CurrentViewLeft}" />
+        <UserControl x:Name="RightMainView" Grid.Column="2" Content="{Binding Path=CurrentViewRight}" />
 
     </Grid>
 </Window>

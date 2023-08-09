@@ -9,9 +9,11 @@ namespace SPMApp.WpfUI;
 
 public static class ViewController
 {
-    private static UserControl? _currentView;
+    private static UserControl? _currentLeftView;
+    private static UserControl? _currentRightView;
     private static readonly Dictionary<ViewsEnum, Type> _viewDictionary = new();
-    public static event EventHandler<UserControl>? ViewChanged;
+    public static event EventHandler<UserControl>? LeftViewChanged;
+    public static event EventHandler<UserControl>? RightViewChanged;
 
     static ViewController()
     {
@@ -27,12 +29,25 @@ public static class ViewController
             ?? throw new InvalidOperationException($"The service returned for {newView} was null.");
     }
 
-    public static void ChangeViewTo(ViewsEnum newView)
+    public static void ChangeViewTo(ViewsEnum newView, SideEnum side)
     {
         var view = (UserControl?)App.Services!.GetService(_viewDictionary[newView])
             ?? throw new InvalidOperationException($"The service returned for {newView} was null.");
 
-        _currentView = view;
-        ViewChanged?.Invoke(null, view);
+        switch (side)
+        {
+            case SideEnum.left:
+                _currentLeftView = view;
+                LeftViewChanged?.Invoke(null, view);
+                break;
+
+            case SideEnum.right:
+                _currentRightView = view;
+                RightViewChanged?.Invoke(null, view);
+                break;
+
+            default:
+                throw new InvalidOperationException($"The side provided was invalid.");
+        }
     }
 }
