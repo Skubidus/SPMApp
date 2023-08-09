@@ -15,8 +15,8 @@ public partial class EntryListViewModel : ObservableObject
 {
     private readonly ISqLiteData _db;
 
-    public event EventHandler<bool> EntriesFiltered;
-    public event EventHandler<bool> FilterCleared;
+    public event EventHandler<bool>? EntriesFiltered;
+    public event EventHandler<bool>? FilterCleared;
 
     [ObservableProperty]
     private string _pageTitle = "Entry List";
@@ -24,15 +24,15 @@ public partial class EntryListViewModel : ObservableObject
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SearchButtonClickCommand))]
     [NotifyCanExecuteChangedFor(nameof(ClearSearchButtonClickCommand))]
-    private string _searchText;
+    private string _searchText = "";
 
-    private readonly List<Entry> _entryCache = new();
+    private readonly List<EntryModel> _entryCache = new();
 
     [ObservableProperty]
     private int _entryCacheCount;
 
-    private readonly ObservableCollection<Entry> _entries = new();
-    public ObservableCollection<Entry> Entries => _entries;
+    private readonly ObservableCollection<EntryModel> _entries = new();
+    public ObservableCollection<EntryModel> Entries => _entries;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ClearSearchButtonClickCommand))]
@@ -47,7 +47,7 @@ public partial class EntryListViewModel : ObservableObject
 
     private void UpdateEntryCacheFromDb()
     {
-        List<Entry> entries = _db.GetAllEntries();
+        List<EntryModel> entries = _db.GetAllEntries();
 
         _entryCache.Clear();
 
@@ -112,11 +112,11 @@ public partial class EntryListViewModel : ObservableObject
         return output;
     }
 
-    private List<Entry> FilterEntryList(IEnumerable<string> filterList)
+    private List<EntryModel> FilterEntryList(IEnumerable<string> filterList)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(filterList));
 
-        List<Entry> output = new();
+        List<EntryModel> output = new();
 
         foreach (var filter in filterList)
         {

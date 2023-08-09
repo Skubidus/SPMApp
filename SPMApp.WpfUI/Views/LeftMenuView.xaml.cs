@@ -29,6 +29,7 @@ namespace SPMApp.WpfUI.Views
             InitializeComponent();
         }
 
+#nullable disable
         public LeftMenuView()
         {
             if (DesignerProperties.GetIsInDesignMode(this))
@@ -46,5 +47,6 @@ namespace SPMApp.WpfUI.Views
 
             InitializeComponent();
         }
+#nullable restore
     }
 }

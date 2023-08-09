@@ -1,7 +1,7 @@
 ﻿namespace SPMLibrary.Models;
 
 #nullable disable
-public class Tag
+public class TagModel
 {
     public int Id { get; set; }
     public string Title { get; set; }

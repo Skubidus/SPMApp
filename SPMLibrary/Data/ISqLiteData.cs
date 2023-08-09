@@ -3,7 +3,7 @@
 namespace SPMLibrary.Data;
 public interface ISqLiteData
 {
-    List<Entry> GetAllEntries();
-    Entry? GetEntryById(int id);
-    void InsertEntry(Entry entry);
+    List<EntryModel> GetAllEntries();
+    EntryModel? GetEntryById(int id);
+    void InsertEntry(EntryModel entry);
 }

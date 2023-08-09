@@ -13,12 +13,12 @@ public class SqLiteData : ISqLiteData
         _db = db;
     }
 
-    public List<Entry> GetAllEntries()
+    public List<EntryModel> GetAllEntries()
     {
         string sql = @" SELECT Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
                         FROM Entries e;";
 
-        var entries = _db.SqlQuery<Entry, dynamic>(sql, new { }, _connectionStringName);
+        var entries = _db.SqlQuery<EntryModel, dynamic>(sql, new { }, _connectionStringName);
 
         foreach (var entry in entries)
         {
@@ -28,7 +28,7 @@ public class SqLiteData : ISqLiteData
                         ON et.TagId = t.Id
                         AND et.EntryId = @EntryId;";
 
-            entry.Tags = _db.SqlQuery<Tag, dynamic>(
+            entry.Tags = _db.SqlQuery<TagModel, dynamic>(
                 sql,
                 new { EntryId = entry.Id },
                 _connectionStringName);
@@ -37,7 +37,7 @@ public class SqLiteData : ISqLiteData
         return entries;
     }
 
-    public Entry? GetEntryById(int id)
+    public EntryModel? GetEntryById(int id)
     {
         if (id < 0)
         {
@@ -48,7 +48,7 @@ public class SqLiteData : ISqLiteData
                         FROM Entries e
                         WHERE e.Id = @Id;";
 
-        var entry = _db.SqlQuery<Entry, dynamic>(
+        var entry = _db.SqlQuery<EntryModel, dynamic>(
             sql,
             new { Id = id },
             _connectionStringName).FirstOrDefault();
@@ -61,7 +61,7 @@ public class SqLiteData : ISqLiteData
         return entry;
     }
 
-    private List<Tag> GetTagsForEntry(int entryId)
+    private List<TagModel> GetTagsForEntry(int entryId)
     {
         if (entryId < 0)
         {
@@ -74,7 +74,7 @@ public class SqLiteData : ISqLiteData
                         ON et.TagId = t.Id
                         AND et.EntryId = @EntryId;";
 
-        var tags = _db.SqlQuery<Tag, dynamic>(
+        var tags = _db.SqlQuery<TagModel, dynamic>(
             sql,
             new { EntryId = entryId },
             _connectionStringName);
@@ -82,7 +82,7 @@ public class SqLiteData : ISqLiteData
         return tags;
     }
 
-    public void InsertEntry(Entry entry)
+    public void InsertEntry(EntryModel entry)
     {
         ArgumentNullException.ThrowIfNull(entry);
 

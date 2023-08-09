@@ -16,6 +16,7 @@ public partial class EntryListView : UserControl
 {
     public EntryListViewModel ViewModel { get; }
 
+#nullable disable
     public EntryListView()
     {
         if (DesignerProperties.GetIsInDesignMode(this))
@@ -35,6 +36,7 @@ public partial class EntryListView : UserControl
 
         SearchText.Focus();
     }
+#nullable restore
 
     private void ViewModel_FilterCleared(object? sender, bool e)
     {
