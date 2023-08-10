@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-using SPMApp.WpfUI.Views;
-
 using SPMLibrary.Data;
 
 using System.Windows.Controls;
@@ -25,10 +23,16 @@ public partial class MainWindowViewModel : ObservableObject
         CurrentViewLeft = ViewController.GetView(ViewsEnum.LeftMenuView);
         CurrentViewRight = ViewController.GetView(ViewsEnum.EntryListView);
 
-        ViewController.RightViewChanged += ViewController_ViewChanged;
+        ViewController.LeftViewChanged += ViewController_LeftViewChanged;
+        ViewController.RightViewChanged += ViewController_RightViewChanged;
     }
 
-    private void ViewController_ViewChanged(object? sender, UserControl newView)
+    private void ViewController_LeftViewChanged(object? sender, UserControl newView)
+    {
+        CurrentViewLeft = newView;
+    }
+
+    private void ViewController_RightViewChanged(object? sender, UserControl newView)
     {
         CurrentViewRight = newView;
     }
