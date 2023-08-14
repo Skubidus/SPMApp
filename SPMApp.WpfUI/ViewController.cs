@@ -36,12 +36,12 @@ public static class ViewController
 
         switch (side)
         {
-            case SideEnum.left:
+            case SideEnum.Left:
                 _currentLeftView = view;
                 LeftViewChanged?.Invoke(null, view);
                 break;
 
-            case SideEnum.right:
+            case SideEnum.Right:
                 _currentRightView = view;
                 RightViewChanged?.Invoke(null, view);
                 break;

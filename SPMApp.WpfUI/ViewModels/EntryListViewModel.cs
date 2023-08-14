@@ -38,6 +38,16 @@ public partial class EntryListViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(ClearSearchButtonClickCommand))]
     private bool _isFiltered = false;
 
+    [ObservableProperty]
+    private EntryModel? _selectedEntry = null;
+
+    partial void OnSelectedEntryChanged(EntryModel? value)
+    {
+        //throw new NotImplementedException();
+        //TODO: Maybe inject selected entry to dependency property of the view
+        ViewController.ChangeViewTo(ViewsEnum.EntryView, SideEnum.Right);
+    }
+
     public EntryListViewModel(ISqLiteData db)
     {
         _db = db;
@@ -78,6 +88,12 @@ public partial class EntryListViewModel : ObservableObject
 
         _entries.Clear();
         filteredEntries.ForEach(e => {  _entries.Add(e); });
+    }
+
+    [RelayCommand]
+    public void OnEntryClick()
+    {
+        var test = 1;
     }
 
     private bool CanClickClearSearchButton => IsFiltered;

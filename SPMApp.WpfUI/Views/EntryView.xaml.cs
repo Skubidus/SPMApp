@@ -20,31 +20,32 @@ public partial class EntryView : UserControl
 {
     public EntryViewModel ViewModel { get; }
 
-    //public EntryView()
-    //{
-    //    if (DesignerProperties.GetIsInDesignMode(this))
-    //    {
-    //        return;
-    //    }
+#nullable disable
+    public EntryView()
+    {
+        if (DesignerProperties.GetIsInDesignMode(this))
+        {
+            return;
+        }
 
-    //    ViewModel = App.Services!.GetService<EntryViewModel>()
-    //        ?? throw new InvalidOperationException($"{nameof(ViewModel)} was null.");
+        ViewModel = App.Services!.GetService<EntryViewModel>()
+            ?? throw new InvalidOperationException($"{nameof(ViewModel)} was null.");
+
+        DataContext = ViewModel;
+
+        InitializeComponent();
+    }
+#nullable restore
+
+    //public EntryView(EntryViewModel vm)
+    //{
+    //    ViewModel = vm;
+    //    ViewModel.Entry = Entry;
 
     //    DataContext = ViewModel;
 
     //    InitializeComponent();
     //}
-
-    //public int MyProperty
-    //{
-    //    get { return (int)GetValue(MyPropertyProperty); }
-    //    set { SetValue(MyPropertyProperty, value); }
-    //}
-
-    //public static DependencyProperty MyPropertyProperty => myPropertyProperty;
-
-
-
 
     public EntryModel Entry
     {
@@ -59,16 +60,4 @@ public partial class EntryView : UserControl
             typeof(EntryModel),
             typeof(EntryView),
             new PropertyMetadata(default));
-
-
-
-    public EntryView(EntryViewModel vm)
-    {
-        ViewModel = vm;
-        ViewModel.Entry = Entry;
-
-        DataContext = ViewModel;
-
-        InitializeComponent();
-    }
 }

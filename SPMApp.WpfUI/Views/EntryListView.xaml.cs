@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 using SPMApp.WpfUI.ViewModels;
 
 using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SPMApp.WpfUI.Views;
@@ -29,7 +29,11 @@ public partial class EntryListView : UserControl
 
         DataContext = ViewModel;
 
+        var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
+
         InitializeComponent();
+
+        //var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
 
         ViewModel.EntriesFiltered += ViewModel_EntriesFiltered;
         ViewModel.FilterCleared += ViewModel_FilterCleared;
