@@ -2,8 +2,8 @@
 
 public enum SideEnum
 {
-    left,
-    right,
+    Left,
+    Right,
 }
 
 public enum ViewsEnum
