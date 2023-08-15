@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using SPMApp.WpfUI.Views;
+
 using SPMLibrary.Data;
 using SPMLibrary.Models;
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -41,11 +44,9 @@ public partial class EntryListViewModel : ObservableObject
     [ObservableProperty]
     private EntryModel? _selectedEntry = null;
 
-    partial void OnSelectedEntryChanged(EntryModel? value)
+    partial void OnSelectedEntryChanged(EntryModel? oldValue, EntryModel? newValue)
     {
-        //throw new NotImplementedException();
-        //TODO: Maybe inject selected entry to dependency property of the view
-        ViewController.ChangeViewTo(ViewsEnum.EntryView, SideEnum.Right);
+        ViewController.ChangeViewTo<EntryView, EntryModel>(ViewsEnum.EntryView, SideEnum.Right, newValue);
     }
 
     public EntryListViewModel(ISqLiteData db)
