@@ -50,7 +50,11 @@ public partial class EntryView : UserControl
     public EntryModel Entry
     {
         get { return (EntryModel)GetValue(EntryProperty); }
-        set { SetValue(EntryProperty, value); }
+        set
+        {
+            SetValue(EntryProperty, value);
+            ViewModel.Entry = value;
+        }
     }
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
