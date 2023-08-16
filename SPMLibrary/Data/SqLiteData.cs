@@ -87,5 +87,17 @@ public class SqLiteData : ISqLiteData
         ArgumentNullException.ThrowIfNull(entry);
 
         throw new NotImplementedException();
+        // TODO: implement InsertEntry(EntryModel entry)
+    }
+
+    public void DeleteEntry(int id)
+    {
+        if (id < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(id));
+        }
+
+        throw new NotImplementedException();
+        // TODO: implement DeleteEntry(int entryId)
     }
 }
