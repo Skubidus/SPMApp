@@ -5,8 +5,10 @@ using SPMLibrary.Data;
 using SPMLibrary.Models;
 
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace SPMApp.WpfUI.ViewModels;
 
@@ -21,6 +23,32 @@ public partial class EntryViewModel : ObservableObject
 
     [ObservableProperty]
     private string _pageTitle = "Entry";
+
+    [ObservableProperty]
+    private int _id;
+
+    [ObservableProperty]
+    private string _title;
+
+    [ObservableProperty]
+    private string _username;
+
+    [ObservableProperty]
+    private string _password;
+
+    [ObservableProperty]
+    private string _websiteUrl;
+
+    [ObservableProperty]
+    private string _notes;
+
+    public readonly ObservableCollection<TagModel> Tags = new();
+
+    [ObservableProperty]
+    private DateTime _dateCreated;
+
+    [ObservableProperty]
+    private DateTime _dateModified;
 
     public EntryViewModel(ISqLiteData db)
     {
@@ -38,7 +66,23 @@ public partial class EntryViewModel : ObservableObject
 
         _originalEntry = value.Clone();
 
+        MapProperties(value);
+
         Debug.Assert(_originalEntry.Equals(value), "Entries are NOT equal!");
+    }
+
+    private void MapProperties(EntryModel value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        Id = value.Id;
+        Title = value.Title;
+        Username = value.Username;
+        Password = value.Password;
+        Notes = value.Notes;
+        WebsiteUrl = value.WebsiteUrl;
+        Tags.Clear();
+        value.Tags.ForEach(t => Tags.Add(t));
     }
 
     [RelayCommand]
