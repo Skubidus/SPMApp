@@ -52,10 +52,17 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 20 0 20" HorizontalAlignment="Right" >
-                    <Button x:Name="DeleteEntryButton" Content="Delete Entry" Padding="20 5" Margin="0 0 5 0" Command="{Binding Path=DeleteEntryButtonClickCommand}" />
-                    <Button x:Name="SaveChangesButton" Content="Save Changes" Padding="20 5" Margin="5 0 0 0" />
-                </StackPanel>
+                <Grid Grid.Row="2" Margin="0 20 0 20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button x:Name="GoBackButton" Grid.Column="0" Content="Go Back" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Left" Command="{Binding Path=GoBackButtonClickCommand}" />
+                    <Button x:Name="DeleteEntryButton" Grid.Column="1" Content="Delete Entry" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Right" Command="{Binding Path=DeleteEntryButtonClickCommand}" />
+                    <Button x:Name="SaveChangesButton" Grid.Column="2" Content="Save Changes" Padding="20 5" Margin="5 0 0 0" HorizontalAlignment="Left" Command="{Binding Path=SaveChangesButtonClickCommand, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
 
             </Grid>
         </Border>
