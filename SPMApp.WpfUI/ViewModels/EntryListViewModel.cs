@@ -131,7 +131,7 @@ public partial class EntryListViewModel : ObservableObject
 
     private List<EntryModel> FilterEntryList(IEnumerable<string> filterList)
     {
-        ArgumentException.ThrowIfNullOrEmpty(nameof(filterList));
+        ArgumentNullException.ThrowIfNull(filterList);
 
         List<EntryModel> output = new();
 

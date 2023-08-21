@@ -35,9 +35,10 @@ public static class ViewController
         where T : class
         where U : class
     {
-        ArgumentException.ThrowIfNullOrEmpty(nameof(parameter));
+        ArgumentNullException.ThrowIfNull(parameter);
 
-        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false && typeof(T) != typeof(UserControl))
+        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false
+            && typeof(T) != typeof(UserControl))
         {
             throw new ArgumentException($"Type '{typeof(T)}' is not a valid UserControl.");
         }
