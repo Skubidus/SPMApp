@@ -90,14 +90,54 @@ public class SqLiteData : ISqLiteData
         // TODO: implement InsertEntry(EntryModel entry)
     }
 
-    public void DeleteEntry(int id)
+    public void DeleteEntry(EntryModel entry)
     {
-        if (id < 0)
+        ArgumentNullException.ThrowIfNull(entry);
+
+        // TODO: implement DeleteEntry(int entryId)
+        throw new NotImplementedException();
+
+        string sql = @"DELETE FROM Entries
+                       WHERE Id = @Id";
+
+        _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
+
+        sql = @"DELETE FROM EntrisTags
+                WHERE EntryId = @Id";
+
+        _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
+
+        DeleteUnusedTags(entry.Tags);
+    }
+
+    private void DeleteUnusedTags(IEnumerable<TagModel> tags)
+    {
+        if (tags is null
+            || tags.Any() == false)
         {
-            throw new ArgumentOutOfRangeException(nameof(id));
+            return;
         }
 
-        throw new NotImplementedException();
-        // TODO: implement DeleteEntry(int entryId)
+        string sql = "";
+
+        foreach (var tag in tags)
+        {
+
+            sql = @"SELECT TagId
+                    FROM EntriesTags
+                    WHERE TagId = @Id";
+
+            var result = _db.SqlQuery<int, dynamic>(sql, new { tag.Id }, _connectionStringName);
+
+            if (result.Any())
+            {
+                break;
+            }
+
+            sql = @"DELETE FROM Tags
+                    WHERE Id = @Id";
+
+            _db.SqlExecute<dynamic>(sql, new { tag.Id }, _connectionStringName);
+        }
     }
 }
