@@ -16,6 +16,8 @@ public partial class EntryViewModel : ObservableObject
 {
     private readonly ISqLiteData _db;
 
+    public event EventHandler EntryDeleted;
+
     [ObservableProperty]
     private EntryModel? _entry;
 
@@ -111,16 +113,17 @@ public partial class EntryViewModel : ObservableObject
             return;
         }
 
-        _db.DeleteEntry(Entry.Id);
+        // TODO: uncomment
+        //_db.DeleteEntry(Entry.Id);
+        EntryDeleted?.Invoke(this, EventArgs.Empty);
+
+        ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);
 
         _ = MessageBox.Show(
             "The entry has been deleted.",
             "Entry Deleted",
             MessageBoxButton.OK,
             MessageBoxImage.Information);
-
-        throw new NotImplementedException();
-        // TODO: change view back to the EntryList
     }
 
     public bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;

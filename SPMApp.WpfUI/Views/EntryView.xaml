@@ -19,27 +19,27 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="{Binding Path=Entry.Title}" FontSize="28" HorizontalAlignment="Center" Margin="0 10 0 20" />
+                <TextBlock Grid.Row="0" Text="{Binding Path=Title}" FontSize="28" HorizontalAlignment="Center" Margin="0 10 0 20" />
 
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Vertical">
                         <Label Content="Title:" FontWeight="Bold" />
-                        <TextBox x:Name="TitleText" Text="{Binding Path=Entry.Title, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox x:Name="TitleText" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Username:" FontWeight="Bold" />
-                        <TextBox x:Name="UsernameText" Text="{Binding Path=Entry.Username, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox x:Name="UsernameText" Text="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Password:" FontWeight="Bold" />
-                        <TextBox x:Name="PasswordText" Text="{Binding Path=Entry.Password, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox x:Name="PasswordText" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Website URL:" FontWeight="Bold" />
-                        <TextBox x:Name="WebsiteUrlText" Text="{Binding Path=Entry.WebsiteUrl, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox x:Name="WebsiteUrlText" Text="{Binding Path=WebsiteUrl, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
@@ -48,7 +48,7 @@
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Notes:" FontWeight="Bold" />
-                        <TextBox TextWrapping="Wrap" x:Name="NotesText" Text="{Binding Path=Entry.Notes, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox TextWrapping="Wrap" x:Name="NotesText" Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </StackPanel>
 
