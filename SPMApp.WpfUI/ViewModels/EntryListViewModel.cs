@@ -46,12 +46,24 @@ public partial class EntryListViewModel : ObservableObject
 
     partial void OnSelectedEntryChanged(EntryModel? oldValue, EntryModel? newValue)
     {
+        if (newValue is null)
+        {
+            return;
+        }
+
         ViewController.ChangeViewTo<EntryView, EntryModel>(ViewsEnum.EntryView, SideEnum.Right, newValue);
     }
 
     public EntryListViewModel(ISqLiteData db)
     {
         _db = db;
+        UpdateEntryCacheFromDb();
+        GetAllEntriesFromCache();
+        EntryViewModel.EntryDeleted += EntryViewModel_EntryDeleted;
+    }
+
+    private void EntryViewModel_EntryDeleted(object? sender, EventArgs e)
+    {
         UpdateEntryCacheFromDb();
         GetAllEntriesFromCache();
     }

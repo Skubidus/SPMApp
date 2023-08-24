@@ -8,7 +8,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace SPMApp.WpfUI.ViewModels;
 
@@ -16,7 +15,7 @@ public partial class EntryViewModel : ObservableObject
 {
     private readonly ISqLiteData _db;
 
-    public event EventHandler? EntryDeleted;
+    public static event EventHandler? EntryDeleted;
 
     [ObservableProperty]
     private EntryModel? _entry;
@@ -130,6 +129,7 @@ public partial class EntryViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanClickSaveChangesButton))]
     public void OnSaveChangesButtonClick()
     {
-
+        // TODO: implement OnSaveChangesButtonClick() 
+        throw new NotImplementedException();
     }
 }
