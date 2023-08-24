@@ -16,7 +16,7 @@ public partial class EntryViewModel : ObservableObject
 {
     private readonly ISqLiteData _db;
 
-    public event EventHandler EntryDeleted;
+    public event EventHandler? EntryDeleted;
 
     [ObservableProperty]
     private EntryModel? _entry;
@@ -30,19 +30,19 @@ public partial class EntryViewModel : ObservableObject
     private int _id;
 
     [ObservableProperty]
-    private string _title;
+    private string? _title;
 
     [ObservableProperty]
-    private string _username;
+    private string? _username;
 
     [ObservableProperty]
-    private string _password;
+    private string? _password;
 
     [ObservableProperty]
-    private string _websiteUrl;
+    private string? _websiteUrl;
 
     [ObservableProperty]
-    private string _notes;
+    private string? _notes;
 
     public readonly ObservableCollection<TagModel> Tags = new();
 
@@ -113,8 +113,7 @@ public partial class EntryViewModel : ObservableObject
             return;
         }
 
-        // TODO: uncomment
-        //_db.DeleteEntry(Entry.Id);
+        _db.DeleteEntry(Entry);
         EntryDeleted?.Invoke(this, EventArgs.Empty);
 
         ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);

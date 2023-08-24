@@ -94,15 +94,12 @@ public class SqLiteData : ISqLiteData
     {
         ArgumentNullException.ThrowIfNull(entry);
 
-        // TODO: implement DeleteEntry(int entryId)
-        throw new NotImplementedException();
-
         string sql = @"DELETE FROM Entries
                        WHERE Id = @Id";
 
         _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
 
-        sql = @"DELETE FROM EntrisTags
+        sql = @"DELETE FROM EntriesTags
                 WHERE EntryId = @Id";
 
         _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
@@ -122,7 +119,6 @@ public class SqLiteData : ISqLiteData
 
         foreach (var tag in tags)
         {
-
             sql = @"SELECT TagId
                     FROM EntriesTags
                     WHERE TagId = @Id";
