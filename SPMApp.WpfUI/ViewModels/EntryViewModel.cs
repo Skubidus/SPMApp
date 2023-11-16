@@ -18,29 +18,37 @@ public partial class EntryViewModel : ObservableObject
     public static event EventHandler? EntryDeleted;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private EntryModel? _entry;
 
     private EntryModel? _originalEntry;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string _pageTitle = "Entry";
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private int _id;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _title;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _username;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _password;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _websiteUrl;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _notes;
 
     public readonly ObservableCollection<TagModel> Tags = new();

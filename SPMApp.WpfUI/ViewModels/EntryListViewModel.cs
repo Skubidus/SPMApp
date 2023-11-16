@@ -159,6 +159,10 @@ public partial class EntryListViewModel : ObservableObject
             }
         }
 
+        output = output.Distinct()
+                       .OrderBy(x => x.Title)
+                       .ToList();
+
         IsFiltered = true;
         EntriesFiltered?.Invoke(this, true);
 

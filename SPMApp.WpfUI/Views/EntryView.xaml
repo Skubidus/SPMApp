@@ -48,7 +48,7 @@
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Notes:" FontWeight="Bold" />
-                        <TextBox TextWrapping="Wrap" x:Name="NotesText" Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox TextWrapping="Wrap" x:Name="NotesText" Text="{Binding Path=Entry.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </StackPanel>
 

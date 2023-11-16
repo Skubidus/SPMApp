@@ -88,6 +88,24 @@ public class SqLiteData : ISqLiteData
 
         throw new NotImplementedException();
         // TODO: implement InsertEntry(EntryModel entry)
+
+        string sql = @"INSERT INTO Entries (Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
+                       VALUES(@Id, @Title, @Username, @Password, @WebsiteUrl, @Notes, @DateCreated, @DateModified);";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new
+            {
+                entry.Id,
+                entry.Title,
+                entry.Username,
+                entry.Password,
+                entry.WebsiteUrl,
+                entry.Notes,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            },
+            _connectionStringName);
     }
 
     public void DeleteEntry(EntryModel entry)
@@ -95,12 +113,12 @@ public class SqLiteData : ISqLiteData
         ArgumentNullException.ThrowIfNull(entry);
 
         string sql = @"DELETE FROM Entries
-                       WHERE Id = @Id";
+                       WHERE Id = @Id;";
 
         _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
 
         sql = @"DELETE FROM EntriesTags
-                WHERE EntryId = @Id";
+                WHERE EntryId = @Id;";
 
         _db.SqlExecute<dynamic>(sql, new { entry.Id }, _connectionStringName);
 
@@ -121,7 +139,7 @@ public class SqLiteData : ISqLiteData
         {
             sql = @"SELECT TagId
                     FROM EntriesTags
-                    WHERE TagId = @Id";
+                    WHERE TagId = @Id;";
 
             var result = _db.SqlQuery<int, dynamic>(sql, new { tag.Id }, _connectionStringName);
 
@@ -131,7 +149,7 @@ public class SqLiteData : ISqLiteData
             }
 
             sql = @"DELETE FROM Tags
-                    WHERE Id = @Id";
+                    WHERE Id = @Id;";
 
             _db.SqlExecute<dynamic>(sql, new { tag.Id }, _connectionStringName);
         }

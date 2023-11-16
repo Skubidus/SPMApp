@@ -31,8 +31,6 @@ public partial class EntryListView : UserControl
 
         InitializeComponent();
 
-        //var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
-
         ViewModel.EntriesFiltered += ViewModel_EntriesFiltered;
         ViewModel.FilterCleared += ViewModel_FilterCleared;
 
