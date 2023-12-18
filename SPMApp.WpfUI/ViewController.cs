@@ -86,7 +86,8 @@ public static class ViewController
     {
         T view = GetView<T, U>(newView, parameter);
 
-        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false && typeof(T) != typeof(UserControl))
+        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false
+            && typeof(T) != typeof(UserControl))
         {
             throw new ArgumentException($"Type '{typeof(T)}' is not a valid UserControl.");
         }
