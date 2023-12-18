@@ -7,7 +7,6 @@ using SPMLibrary.Data;
 using SPMLibrary.Models;
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -103,18 +102,19 @@ public partial class EntryListViewModel : ObservableObject
         filteredEntries.ForEach(e => {  _entries.Add(e); });
     }
 
-    [RelayCommand]
-    public void OnEntryClick()
-    {
-        var test = 1;
-    }
-
     private bool CanClickClearSearchButton => IsFiltered;
 
     [RelayCommand(CanExecute = nameof(CanClickClearSearchButton))]
     public void OnClearSearchButtonClick()
     {
         ClearFilter();
+    }
+
+    [RelayCommand]
+    public void OnNewEntryButtonClick()
+    {
+        // TODO: implement event handler
+        throw new NotImplementedException();
     }
 
     private void ClearFilter()
