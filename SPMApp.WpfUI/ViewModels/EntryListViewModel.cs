@@ -114,7 +114,8 @@ public partial class EntryListViewModel : ObservableObject
     public void OnNewEntryButtonClick()
     {
         // TODO: implement event handler
-        throw new NotImplementedException();
+
+        ViewController.ChangeViewTo<EntryView, EntryModel>(ViewsEnum.EntryView, SideEnum.Right, new());
     }
 
     private void ClearFilter()

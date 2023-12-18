@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 using SPMApp.WpfUI.ViewModels;
 
@@ -14,21 +12,21 @@ using System.Windows.Controls;
 namespace SPMApp.WpfUI.Views;
 
 /// <summary>
-/// Interaction logic for EntryView.xaml
+/// Interaction logic for NewEntryView.xaml
 /// </summary>
-public partial class EntryView : UserControl
+public partial class NewEntryView : UserControl
 {
-    public EntryViewModel ViewModel { get; }
+    public NewEntryViewModel ViewModel { get; }
 
 #nullable disable
-    public EntryView()
+    public NewEntryView()
     {
         if (DesignerProperties.GetIsInDesignMode(this))
         {
             return;
         }
 
-        ViewModel = App.Services!.GetService<EntryViewModel>()
+        ViewModel = App.Services!.GetService<NewEntryViewModel>()
             ?? throw new InvalidOperationException($"{nameof(ViewModel)} was null.");
 
         DataContext = ViewModel;
@@ -36,16 +34,6 @@ public partial class EntryView : UserControl
         InitializeComponent();
     }
 #nullable restore
-
-    //public EntryView(EntryViewModel vm)
-    //{
-    //    ViewModel = vm;
-    //    ViewModel.Entry = Entry;
-
-    //    DataContext = ViewModel;
-
-    //    InitializeComponent();
-    //}
 
     public EntryModel Entry
     {

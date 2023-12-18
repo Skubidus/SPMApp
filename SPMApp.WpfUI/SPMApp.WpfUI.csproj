@@ -28,4 +28,10 @@
     <Folder Include="Converter\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\NewEntryView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

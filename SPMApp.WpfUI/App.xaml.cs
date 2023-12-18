@@ -51,6 +51,9 @@ public partial class App : Application
         services.AddTransient<EntryView>();
         services.AddTransient<EntryViewModel>();
 
+        services.AddTransient<NewEntryView>();
+        services.AddTransient<NewEntryViewModel>();
+
         // Database services
         services.AddTransient<ISqLiteDataAccess, SqLiteDataAccess>();
         services.AddTransient<ISqLiteData, SqLiteData>();

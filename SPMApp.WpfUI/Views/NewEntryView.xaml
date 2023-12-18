@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="SPMApp.WpfUI.Views.NewEntryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SPMApp.WpfUI.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=vm:EntryViewModel}">
+    <Grid>
+
+        <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10">
+            <Grid Margin="25 0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding Path=Title}" FontSize="28" HorizontalAlignment="Center" Margin="0 10 0 20" />
+
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Title:" FontWeight="Bold" />
+                        <TextBox x:Name="TitleText" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Username:" FontWeight="Bold" />
+                        <TextBox x:Name="UsernameText" Text="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Password:" FontWeight="Bold" />
+                        <TextBox x:Name="PasswordText" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Website URL:" FontWeight="Bold" />
+                        <TextBox x:Name="WebsiteUrlText" Text="{Binding Path=WebsiteUrl, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Tags:" FontWeight="Bold" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Notes:" FontWeight="Bold" />
+                        <TextBox TextWrapping="Wrap" x:Name="NotesText" Text="{Binding Path=Entry.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Grid Grid.Row="2" Margin="0 20 0 20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button x:Name="GoBackButton" Grid.Column="0" Content="Go Back" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Left" Command="{Binding Path=GoBackButtonClickCommand}" />
+                    <Button x:Name="DeleteEntryButton" Grid.Column="1" Content="Delete Entry" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Right" Command="{Binding Path=DeleteEntryButtonClickCommand}" />
+                    <Button x:Name="SaveChangesButton" Grid.Column="2" Content="Save Changes" Padding="20 5" Margin="5 0 0 0" HorizontalAlignment="Left" Command="{Binding Path=SaveChangesButtonClickCommand, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>
