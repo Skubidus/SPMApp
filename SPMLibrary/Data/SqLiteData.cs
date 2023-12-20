@@ -84,8 +84,6 @@ public class SqLiteData : ISqLiteData
 
     public void InsertEntry(EntryModel entry)
     {
-        ArgumentNullException.ThrowIfNull(entry);
-
         throw new NotImplementedException();
         // TODO: implement InsertEntry(EntryModel entry)
 
@@ -108,10 +106,14 @@ public class SqLiteData : ISqLiteData
             _connectionStringName);
     }
 
+    public void UpdateEntry(EntryModel entry)
+    {
+        // TODO: implement UpdateEntry(EntryModel entry)
+        throw new NotFiniteNumberException();
+    }
+
     public void DeleteEntry(EntryModel entry)
     {
-        ArgumentNullException.ThrowIfNull(entry);
-
         string sql = @"DELETE FROM Entries
                        WHERE Id = @Id;";
 
@@ -127,8 +129,7 @@ public class SqLiteData : ISqLiteData
 
     private void DeleteUnusedTags(IEnumerable<TagModel> tags)
     {
-        if (tags is null
-            || tags.Any() == false)
+        if (tags.Any() == false)
         {
             return;
         }

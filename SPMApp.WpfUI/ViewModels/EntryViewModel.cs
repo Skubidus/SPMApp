@@ -82,8 +82,6 @@ public partial class EntryViewModel : ObservableObject
 
     private void MapProperties(EntryModel value)
     {
-        ArgumentNullException.ThrowIfNull(value);
-
         Id = value.Id;
         Title = value.Title;
         Username = value.Username;

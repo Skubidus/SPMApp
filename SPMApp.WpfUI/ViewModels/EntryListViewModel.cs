@@ -113,7 +113,7 @@ public partial class EntryListViewModel : ObservableObject
     [RelayCommand]
     public void OnNewEntryButtonClick()
     {
-        // TODO: implement event handler
+        // TODO: implement event handler OnNewEntryButtonClick()
 
         ViewController.ChangeViewTo<EntryView, EntryModel>(ViewsEnum.EntryView, SideEnum.Right, new());
     }

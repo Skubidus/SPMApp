@@ -15,37 +15,27 @@ public partial class NewEntryViewModel : ObservableObject
     private readonly ISqLiteData _db;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private EntryModel? _entry;
 
-    private EntryModel? _originalEntry;
-
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string _pageTitle = "Entry";
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private int _id;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _title;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _username;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _password;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _websiteUrl;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _notes;
 
     public readonly ObservableCollection<TagModel> Tags = new();
@@ -65,19 +55,10 @@ public partial class NewEntryViewModel : ObservableObject
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        if (_originalEntry is not null)
-        {
-            throw new Exception($"Reassigning of {nameof(Entry)} is not allowed.");
-        }
-
-        _originalEntry = value.Clone();
-
-        MapProperties(value);
-
-        Debug.Assert(_originalEntry.Equals(value), "Entries are NOT equal!");
+        MapEntryModelToUIProperties(value);
     }
 
-    private void MapProperties(EntryModel value)
+    private void MapEntryModelToUIProperties(EntryModel value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -95,14 +76,5 @@ public partial class NewEntryViewModel : ObservableObject
     public void OnGoBackButtonClick()
     {
         ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);
-    }
-
-    public bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;
-
-    [RelayCommand(CanExecute = nameof(CanClickSaveChangesButton))]
-    public void OnSaveChangesButtonClick()
-    {
-        // TODO: implement OnSaveChangesButtonClick() 
-        throw new NotImplementedException();
     }
 }
