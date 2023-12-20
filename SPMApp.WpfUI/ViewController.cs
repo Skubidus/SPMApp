@@ -31,29 +31,28 @@ public static class ViewController
             ?? throw new InvalidOperationException($"The service returned for {newView} was null.");
     }
 
-    public static T GetView<T, U>(ViewsEnum newView, U? parameter)
-        where T : class
-        where U : class
+    public static TView GetView<TView, TParam>(ViewsEnum newView, TParam? parameter)
+        where TView : class
+        where TParam : class
     {
         ArgumentNullException.ThrowIfNull(parameter);
 
-        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false
-            && typeof(T) != typeof(UserControl))
+        if (typeof(TView).IsSubclassOf(typeof(UserControl)) == false
+            && typeof(TView) != typeof(UserControl))
         {
-            throw new ArgumentException($"Type '{typeof(T)}' is not a valid UserControl.");
+            throw new ArgumentException($"Type '{typeof(TView)}' is not a valid UserControl.");
         }
 
-        var output = (GetView(newView)) as T;
-        //if (output is null)
-        //    throw new InvalidOperationException($"{nameof(output)} can not be null here.");
+        var output = (GetView(newView)) as TView;
 
-        if (typeof(T) == typeof(EntryView)
-            && typeof(U) == typeof(EntryModel))
+        if (typeof(TView) == typeof(EntryView)
+            && typeof(TParam) == typeof(EntryModel))
         {
             var entry = parameter as EntryModel;
             var entryView = output as EntryView;
-            entryView!.Entry = entry ?? throw new NullReferenceException();
-            output = entryView as T;
+            entryView!.Entry = entry
+                ?? throw new NullReferenceException();
+            output = entryView as TView;
         }
 
         return output ?? throw new InvalidOperationException($"{nameof(output)} can not be null here."); ;
@@ -80,27 +79,29 @@ public static class ViewController
         }
     }
 
-    public static void ChangeViewTo<T, U>(ViewsEnum newView, SideEnum side, U? parameter)
-    where T : class
-    where U : class
+    public static void ChangeViewTo<TView, TParam>(ViewsEnum newView, SideEnum side, TParam? parameter)
+    where TView : class
+    where TParam : class
     {
-        T view = GetView<T, U>(newView, parameter);
+        TView view = GetView<TView, TParam>(newView, parameter);
 
-        if (typeof(T).IsSubclassOf(typeof(UserControl)) == false
-            && typeof(T) != typeof(UserControl))
+        if (typeof(TView).IsSubclassOf(typeof(UserControl)) == false
+            && typeof(TView) != typeof(UserControl))
         {
-            throw new ArgumentException($"Type '{typeof(T)}' is not a valid UserControl.");
+            throw new ArgumentException($"Type '{typeof(TView)}' is not a valid UserControl.");
         }
 
         switch (side)
         {
             case SideEnum.Left:
-                _currentLeftView = view as UserControl ?? throw new InvalidOperationException();
+                _currentLeftView = view as UserControl
+                    ?? throw new InvalidOperationException();
                 LeftViewChanged?.Invoke(null, _currentLeftView);
                 break;
 
             case SideEnum.Right:
-                _currentRightView = view as UserControl ?? throw new InvalidOperationException();
+                _currentRightView = view as UserControl
+                    ?? throw new InvalidOperationException();
                 RightViewChanged?.Invoke(null, _currentRightView);
                 break;
 
