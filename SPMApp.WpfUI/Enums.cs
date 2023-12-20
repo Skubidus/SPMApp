@@ -12,4 +12,5 @@ public enum ViewsEnum
     LeftMenuView,
     EntryListView,
     EntryView,
+    NewEntryView,
 }

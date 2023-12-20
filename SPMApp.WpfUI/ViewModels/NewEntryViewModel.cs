@@ -18,7 +18,7 @@ public partial class NewEntryViewModel : ObservableObject
     private EntryModel? _entry;
 
     [ObservableProperty]
-    private string _pageTitle = "Entry";
+    private string _pageTitle = "New Entry";
 
     [ObservableProperty]
     private int _id;

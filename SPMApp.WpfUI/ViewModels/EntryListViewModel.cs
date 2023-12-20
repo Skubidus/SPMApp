@@ -28,12 +28,12 @@ public partial class EntryListViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(ClearSearchButtonClickCommand))]
     private string _searchText = "";
 
-    private readonly List<EntryModel> _entryCache = new();
+    private readonly List<EntryModel> _entryCache = [];
 
     [ObservableProperty]
     private int _entryCacheCount;
 
-    private readonly ObservableCollection<EntryModel> _entries = new();
+    private readonly ObservableCollection<EntryModel> _entries = [];
     public ObservableCollection<EntryModel> Entries => _entries;
 
     [ObservableProperty]
@@ -113,9 +113,7 @@ public partial class EntryListViewModel : ObservableObject
     [RelayCommand]
     public void OnNewEntryButtonClick()
     {
-        // TODO: implement event handler OnNewEntryButtonClick()
-
-        ViewController.ChangeViewTo<EntryView, EntryModel>(ViewsEnum.EntryView, SideEnum.Right, new());
+        ViewController.ChangeViewTo<NewEntryView, EntryModel>(ViewsEnum.NewEntryView, SideEnum.Right, new());
     }
 
     private void ClearFilter()

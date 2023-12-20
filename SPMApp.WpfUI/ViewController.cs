@@ -1,4 +1,5 @@
-﻿using SPMApp.WpfUI.Views;
+﻿using SPMApp.WpfUI.ViewModels;
+using SPMApp.WpfUI.Views;
 
 using SPMLibrary.Models;
 
@@ -23,6 +24,7 @@ public static class ViewController
         _viewDictionary.Add(ViewsEnum.LeftMenuView, typeof(LeftMenuView));
         _viewDictionary.Add(ViewsEnum.EntryListView, typeof(EntryListView));
         _viewDictionary.Add(ViewsEnum.EntryView, typeof(EntryView));
+        _viewDictionary.Add(ViewsEnum.NewEntryView, typeof(NewEntryView));
     }
 
     public static UserControl GetView(ViewsEnum newView)
@@ -53,6 +55,16 @@ public static class ViewController
             entryView!.Entry = entry
                 ?? throw new NullReferenceException();
             output = entryView as TView;
+        }
+
+        if (typeof(TView) == typeof(NewEntryView)
+            && typeof(TParam) == typeof(NewEntryViewModel))
+        {
+            var entry = parameter as EntryModel;
+            var newEntryView = output as NewEntryView;
+            newEntryView!.Entry = entry
+                ?? throw new NullReferenceException();
+            output = newEntryView as TView;
         }
 
         return output ?? throw new InvalidOperationException($"{nameof(output)} can not be null here."); ;
