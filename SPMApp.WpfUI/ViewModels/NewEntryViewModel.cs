@@ -60,8 +60,6 @@ public partial class NewEntryViewModel : ObservableObject
 
     private void MapEntryModelToUIProperties(EntryModel value)
     {
-        ArgumentNullException.ThrowIfNull(value);
-
         Id = value.Id;
         Title = value.Title;
         Username = value.Username;
