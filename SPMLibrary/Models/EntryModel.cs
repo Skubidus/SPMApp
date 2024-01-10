@@ -8,7 +8,7 @@ public class EntryModel
     public string Password { get; set; } = "";
     public string? WebsiteUrl { get; set; }
     public string? Notes { get; set; }
-    public List<TagModel> Tags { get; set; } = new();
+    public List<TagModel> Tags { get; set; } = [];
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
 

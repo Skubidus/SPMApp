@@ -109,7 +109,106 @@ public class SqLiteData : ISqLiteData
     public void UpdateEntry(EntryModel entry)
     {
         // TODO: implement UpdateEntry(EntryModel entry)
-        throw new NotFiniteNumberException();
+        entry.DateModified = DateTime.Now;
+
+        string sql = @"UPDATE Entries
+                       SET Title = @title, Username = @username, Password = @password
+                       WebsiteUrl = @websiteUrl, Notes = @notes, DateModified = @dateModified
+                       WHERE Id = @id;";
+
+        // save the entry itself
+        _db.SqlExecute<dynamic>(sql,
+            new
+            {
+                entry.Title,
+                entry.Username,
+                entry.Password,
+                entry.WebsiteUrl,
+                entry.Notes,
+                entry.DateModified,
+                entry.Id
+            },
+            _connectionStringName);
+
+        // get all tags for entry from db
+        var tags = GetTagsForEntry(entry.Id);
+
+        // compare entry tags in db with entry tags in argument to get a set of tags
+        // that needs to be added and a set of tags that need to be removed from the entry
+        var tagsToAdd = GetTagsToAdd(tags, entry.Tags);
+        var tagsToRemove = GetTagsToRemove(tags, entry.Tags);
+
+        // check if new tags already exist in db and get a list of tags that need to be added
+        var tagsToInsertToDB = GetTagsToInsertIntoDb(tagsToAdd);
+
+        // insert new tags to db
+        tagsToInsertToDB.ForEach(tag => InsertTag(tag));
+
+        // get all the ids for the newly inserted tags
+        tagsToInsertToDB.ForEach(tag => tag.Id = GetTagId(tag));
+
+        // insert reference for tags to the entry
+        tagsToAdd.ForEach(tag => AddTagReferenceToEntry(tag, entry));
+
+        // remove references for all tags to be removed
+        tagsToRemove.ForEach(tag => RemoveTagReferenceFromEntry(tag, entry));
+
+        // check if the removed tags are no longer in use and delete unused tags        
+        DeleteUnusedTags(tagsToRemove);
+    }
+
+    private void DeleteTag(TagModel tag)
+    {
+        // implement DeleteTag()
+        throw new NotImplementedException();
+    }
+
+    private List<TagModel> GetTagsNoLongerInUse(IEnumerable<TagModel> tagsToRemove)
+    {
+        // TODO: implement GetTagsNoLongerInUse()
+        throw new NotImplementedException();
+    }
+
+    private void RemoveTagReferenceFromEntry(TagModel tag, EntryModel entry)
+    {
+        // TODO: implement RemoveTagReferenceFromEntry()
+        throw new NotImplementedException();
+    }
+
+    private int GetTagId(TagModel tag)
+    {
+        // TODO: implement GetTagId()
+        throw new NotImplementedException();
+    }
+
+    private void AddTagReferenceToEntry(TagModel tag, EntryModel entry)
+    {
+        // TODO: implement AddTagReferenceToEntry()
+        throw new NotImplementedException();
+    }
+
+    private List<TagModel> GetTagsToAdd(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
+    {
+        // TODO: implement GetTagsToAdd()
+        throw new NotImplementedException();
+    }
+
+    private List<TagModel> GetTagsToRemove(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
+    {
+        // TODO: implement GetTagsToRemove()
+        throw new NotImplementedException();
+    }
+
+    private List<TagModel> GetTagsToInsertIntoDb(IEnumerable<TagModel> tagsSource)
+    {
+        // TODO: implement GetTagsToInsertIntoDb()
+        throw new NotImplementedException();
+    }
+
+    private void InsertTag(TagModel tag)
+    {
+        // TODO: implement InsertTag()
+        throw new NotImplementedException();
     }
 
     public void DeleteEntry(EntryModel entry)
