@@ -63,10 +63,7 @@ public class SqLiteData : ISqLiteData
 
     private List<TagModel> GetTagsForEntry(int entryId)
     {
-        if (entryId < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(entryId));
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(entryId);
 
         string sql = @"SELECT t.Id, t.Title
                     FROM Tags t
@@ -108,7 +105,6 @@ public class SqLiteData : ISqLiteData
 
     public void UpdateEntry(EntryModel entry)
     {
-        // TODO: implement UpdateEntry(EntryModel entry)
         entry.DateModified = DateTime.Now;
 
         string sql = @"UPDATE Entries
@@ -116,7 +112,6 @@ public class SqLiteData : ISqLiteData
                        WebsiteUrl = @websiteUrl, Notes = @notes, DateModified = @dateModified
                        WHERE Id = @id;";
 
-        // save the entry itself
         _db.SqlExecute<dynamic>(sql,
             new
             {
@@ -130,30 +125,21 @@ public class SqLiteData : ISqLiteData
             },
             _connectionStringName);
 
-        // get all tags for entry from db
         var tags = GetTagsForEntry(entry.Id);
 
-        // compare entry tags in db with entry tags in argument to get a set of tags
-        // that needs to be added and a set of tags that need to be removed from the entry
-        var tagsToAdd = GetTagsToAdd(tags, entry.Tags);
-        var tagsToRemove = GetTagsToRemove(tags, entry.Tags);
+        var tagsToAdd = GetTagsToAddToEntry(tags, entry.Tags);
+        var tagsToRemove = GetTagsToRemoveFromEntry(tags, entry.Tags);
 
-        // check if new tags already exist in db and get a list of tags that need to be added
         var tagsToInsertToDB = GetTagsToInsertIntoDb(tagsToAdd);
 
-        // insert new tags to db
         tagsToInsertToDB.ForEach(tag => InsertTag(tag));
 
-        // get all the ids for the newly inserted tags
         tagsToInsertToDB.ForEach(tag => tag.Id = GetTagId(tag));
 
-        // insert reference for tags to the entry
         tagsToAdd.ForEach(tag => AddTagReferenceToEntry(tag, entry));
 
-        // remove references for all tags to be removed
         tagsToRemove.ForEach(tag => RemoveTagReferenceFromEntry(tag, entry));
 
-        // check if the removed tags are no longer in use and delete unused tags        
         DeleteUnusedTags(tagsToRemove);
     }
 
@@ -187,7 +173,7 @@ public class SqLiteData : ISqLiteData
         throw new NotImplementedException();
     }
 
-    private List<TagModel> GetTagsToAdd(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
+    private List<TagModel> GetTagsToAddToEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
     {
         // TODO: implement GetTagsToAdd()
         List<TagModel> output = [];
@@ -200,7 +186,7 @@ public class SqLiteData : ISqLiteData
         throw new NotImplementedException();
     }
 
-    private List<TagModel> GetTagsToRemove(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
+    private List<TagModel> GetTagsToRemoveFromEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
     {
         // TODO: implement GetTagsToRemove()
         throw new NotImplementedException();
