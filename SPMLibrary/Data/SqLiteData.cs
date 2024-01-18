@@ -132,11 +132,11 @@ public class SqLiteData : ISqLiteData
         var tagsToAdd = GetTagsToAddToEntry(tags, entry.Tags);
         var tagsToRemove = GetTagsToRemoveFromEntry(tags, entry.Tags);
 
-        var tagsToInsertToDB = GetTagsToInsertIntoDb(tagsToAdd);
+        var tagsNotAlreadyInDb = GetTagsNotAlreadyInDb(tagsToAdd);
 
-        tagsToInsertToDB.ForEach(tag => InsertTag(tag));
+        tagsNotAlreadyInDb.ForEach(tag => InsertTag(tag));
 
-        tagsToInsertToDB.ForEach(tag => tag.Id = GetTagId(tag));
+        tagsNotAlreadyInDb.ForEach(tag => tag.Id = GetTagId(tag));
 
         tagsToAdd.ForEach(tag => AddTagReferenceToEntry(tag, entry));
 
@@ -189,20 +189,53 @@ public class SqLiteData : ISqLiteData
             output.Add(tag);
         }
 
-
         return output;
     }
 
     private List<TagModel> GetTagsToRemoveFromEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
     {
-        // TODO: implement GetTagsToRemove()
-        throw new NotImplementedException();
+        List<TagModel> output = [];
+
+        foreach (var tag in tagsSource)
+        {
+            if (tagsTarget.Contains(tag))
+            {
+                continue;
+            }
+
+            output.Add(tag);
+        }
+
+        return output;
     }
 
-    private List<TagModel> GetTagsToInsertIntoDb(IEnumerable<TagModel> tagsSource)
+    private List<TagModel> GetTagsNotAlreadyInDb(IEnumerable<TagModel> tagsSource)
     {
-        // TODO: implement GetTagsToInsertIntoDb()
-        throw new NotImplementedException();
+        var output = new List<TagModel>();
+
+        foreach (var tag in tagsSource)
+        {
+            string sql = "";
+
+            sql = @"SELECT Id, Title
+                    FROM Tags
+                    WHERE Id = @Id;";
+
+            var resultTag = _db.SqlQuery<TagModel, dynamic>(
+                sql,
+                new { tag.Id },
+                _connectionStringName)
+                .FirstOrDefault();
+
+            if (resultTag is not null)
+            {
+                continue;
+            }
+
+            output.Add(tag);
+        }
+
+        return output;
     }
 
     private void InsertTag(TagModel tag)
