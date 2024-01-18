@@ -1,6 +1,8 @@
 ﻿using SPMLibrary.DataAccess;
 using SPMLibrary.Models;
 
+using System.Reflection.Metadata.Ecma335;
+
 namespace SPMLibrary.Data;
 
 public class SqLiteData : ISqLiteData
@@ -175,15 +177,20 @@ public class SqLiteData : ISqLiteData
 
     private List<TagModel> GetTagsToAddToEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
     {
-        // TODO: implement GetTagsToAdd()
         List<TagModel> output = [];
 
-        tagsTarget.ToList().ForEach(tag =>
+        foreach (var tag in tagsTarget)
         {
-            
-        });
+            if (tagsSource.Contains(tag))
+            {
+                continue;
+            }
 
-        throw new NotImplementedException();
+            output.Add(tag);
+        }
+
+
+        return output;
     }
 
     private List<TagModel> GetTagsToRemoveFromEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
