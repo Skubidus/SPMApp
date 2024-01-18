@@ -190,6 +190,13 @@ public class SqLiteData : ISqLiteData
     private List<TagModel> GetTagsToAdd(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
     {
         // TODO: implement GetTagsToAdd()
+        List<TagModel> output = [];
+
+        tagsTarget.ToList().ForEach(tag =>
+        {
+            
+        });
+
         throw new NotImplementedException();
     }
 
@@ -207,8 +214,15 @@ public class SqLiteData : ISqLiteData
 
     private void InsertTag(TagModel tag)
     {
-        // TODO: implement InsertTag()
-        throw new NotImplementedException();
+        string sql = "";
+
+        sql = @"INSERT INTO Tags (Title)
+                VALUES (@Title);";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new { tag.Title },
+            _connectionStringName);
     }
 
     public void DeleteEntry(EntryModel entry)
