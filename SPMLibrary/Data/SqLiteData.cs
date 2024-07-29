@@ -41,10 +41,7 @@ public class SqLiteData : ISqLiteData
 
     public EntryModel? GetEntryById(int id)
     {
-        if (id < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(id));
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(id);
 
         string sql = @" SELECT Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
                         FROM Entries e
@@ -151,12 +148,6 @@ public class SqLiteData : ISqLiteData
         throw new NotImplementedException();
     }
 
-    private List<TagModel> GetTagsNoLongerInUse(IEnumerable<TagModel> tagsToRemove)
-    {
-        // TODO: implement GetTagsNoLongerInUse()
-        throw new NotImplementedException();
-    }
-
     private void RemoveTagReferenceFromEntry(TagModel tag, EntryModel entry)
     {
         // TODO: implement RemoveTagReferenceFromEntry()
@@ -165,14 +156,38 @@ public class SqLiteData : ISqLiteData
 
     private int GetTagId(TagModel tag)
     {
-        // TODO: implement GetTagId()
-        throw new NotImplementedException();
+        int output = 0;
+
+        string sql = "";
+        sql = @"SELECT Id, Title FROM Tags WHERE Title = @Title;";
+
+        var tempTag = _db.SqlQuery<TagModel, dynamic>(
+            sql,
+            new { tag.Title },
+            _connectionStringName)
+            .FirstOrDefault();
+
+        if (tempTag is null)
+        {
+            return 0;
+        }
+
+        output = tempTag.Id;
+
+        return output;
     }
 
     private void AddTagReferenceToEntry(TagModel tag, EntryModel entry)
     {
-        // TODO: implement AddTagReferenceToEntry()
-        throw new NotImplementedException();
+        string sql = "";
+
+        sql = @"INSERT INTO TagsEntries (TagId, EntryId)
+                VALUES (@TagId, @EntryId);";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new { tag.Id, EntryId = entry.Id },
+            _connectionStringName);
     }
 
     private List<TagModel> GetTagsToAddToEntry(IEnumerable<TagModel> tagsSource, IEnumerable<TagModel> tagsTarget)
@@ -283,7 +298,7 @@ public class SqLiteData : ISqLiteData
 
             var result = _db.SqlQuery<int, dynamic>(sql, new { tag.Id }, _connectionStringName);
 
-            if (result.Any())
+            if (result.Count != 0)
             {
                 break;
             }
