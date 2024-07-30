@@ -80,14 +80,13 @@ public class SqLiteData : ISqLiteData
 
     public void InsertEntry(EntryModel entry)
     {
-        string sql = @"INSERT INTO Entries (Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
-                       VALUES(@Id, @Title, @Username, @Password, @WebsiteUrl, @Notes, @DateCreated, @DateModified);";
+        string sql = @"INSERT INTO Entries (Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
+                       VALUES(@Title, @Username, @Password, @WebsiteUrl, @Notes, @DateCreated, @DateModified);";
 
         _db.SqlExecute<dynamic>(
             sql,
             new
             {
-                entry.Id,
                 entry.Title,
                 entry.Username,
                 entry.Password,
@@ -99,8 +98,8 @@ public class SqLiteData : ISqLiteData
             _connectionStringName);
 
         sql = @"SELECT Id FROM Entries
-                WHERE Title = @Title, Username = @Username, Password = @Password, WebsiteUrl = @WebsiteUrl,
-                Notes = @Notes, DateCreated = @DateCreated, DateModified = @DateModified;";
+                WHERE Title = @Title AND Username = @Username AND Password = @Password AND WebsiteUrl = @WebsiteUrl
+                AND Notes = @Notes AND DateCreated = @DateCreated AND DateModified = @DateModified;";
 
         entry.Id = _db.SqlQuery<int, dynamic>(
             sql,
@@ -170,14 +169,42 @@ public class SqLiteData : ISqLiteData
 
     private void DeleteTag(TagModel tag)
     {
-        // implement DeleteTag()
+        // TODO: implement DeleteTag()
         throw new NotImplementedException();
     }
 
     private void RemoveTagReferenceFromEntry(TagModel tag, EntryModel entry)
     {
         // TODO: implement RemoveTagReferenceFromEntry()
-        throw new NotImplementedException();
+
+        if (tag.Id <= 0)
+        {
+            throw new InvalidOperationException("Tag ID can not be smaller or equal to 0.");
+        }
+
+        if (entry.Id <= 0)
+        {
+            throw new InvalidOperationException("Entry ID can not be smaller or equal to 0.");
+        }
+
+        string sql = @"DELETE FROM EntriesTags
+                       WHERE TagId = @TagId AND EntryId = @EntryId;";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new
+            {
+                TagId = tag.Id,
+                EntryId = entry.Id
+            },
+            _connectionStringName);
+
+        var tagToRemove = entry.Tags.FirstOrDefault(t => t.Id == tag.Id);
+
+        if (tagToRemove is not null)
+        {
+            entry.Tags.Remove(tagToRemove);
+        }
     }
 
     private int GetTagId(TagModel tag)
@@ -185,7 +212,8 @@ public class SqLiteData : ISqLiteData
         int output = 0;
 
         string sql = "";
-        sql = @"SELECT Id, Title FROM Tags WHERE Title = @Title;";
+        sql = @"SELECT Id, Title FROM Tags
+                WHERE Title = @Title;";
 
         var tempTag = _db.SqlQuery<TagModel, dynamic>(
             sql,
@@ -322,7 +350,10 @@ public class SqLiteData : ISqLiteData
                     FROM EntriesTags
                     WHERE TagId = @Id;";
 
-            var result = _db.SqlQuery<int, dynamic>(sql, new { tag.Id }, _connectionStringName);
+            var result = _db.SqlQuery<int, dynamic>(
+                sql,
+                new { tag.Id },
+                _connectionStringName);
 
             if (result.Count > 0)
             {
