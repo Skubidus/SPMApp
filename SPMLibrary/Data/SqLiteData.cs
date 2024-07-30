@@ -80,9 +80,6 @@ public class SqLiteData : ISqLiteData
 
     public void InsertEntry(EntryModel entry)
     {
-        throw new NotImplementedException();
-        // TODO: implement InsertEntry(EntryModel entry)
-
         string sql = @"INSERT INTO Entries (Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
                        VALUES(@Id, @Title, @Username, @Password, @WebsiteUrl, @Notes, @DateCreated, @DateModified);";
 
@@ -100,6 +97,35 @@ public class SqLiteData : ISqLiteData
                 DateModified = DateTime.Now
             },
             _connectionStringName);
+
+        sql = @"SELECT Id FROM Entries
+                WHERE Title = @Title, Username = @Username, Password = @Password, WebsiteUrl = @WebsiteUrl,
+                Notes = @Notes, DateCreated = @DateCreated, DateModified = @DateModified;";
+
+        entry.Id = _db.SqlQuery<int, dynamic>(
+            sql,
+            new
+            {
+                entry.Title,
+                entry.Username,
+                entry.Password,
+                entry.WebsiteUrl,
+                entry.Notes,
+                entry.DateCreated,
+                entry.DateModified
+            },
+            _connectionStringName)
+            .FirstOrDefault();
+
+        if (entry.Id == 0)
+        {
+            throw new InvalidOperationException("Recently added entry was expected but not found in the database.");
+        }
+
+        foreach (var tag in entry.Tags)
+        {
+            AddTagReferenceToEntry(tag, entry);
+        }
     }
 
     public void UpdateEntry(EntryModel entry)
@@ -298,7 +324,7 @@ public class SqLiteData : ISqLiteData
 
             var result = _db.SqlQuery<int, dynamic>(sql, new { tag.Id }, _connectionStringName);
 
-            if (result.Count != 0)
+            if (result.Count > 0)
             {
                 break;
             }
