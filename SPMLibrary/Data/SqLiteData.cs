@@ -208,8 +208,6 @@ public class SqLiteData : ISqLiteData
 
     private void RemoveTagReferenceFromEntry(TagModel tag, EntryModel entry)
     {
-        // TODO: implement RemoveTagReferenceFromEntry()
-
         if (tag.Id <= 0)
         {
             throw new InvalidOperationException("Tag ID can not be smaller or equal to 0.");
@@ -221,7 +219,8 @@ public class SqLiteData : ISqLiteData
         }
 
         string sql = @"DELETE FROM EntriesTags
-                       WHERE TagId = @TagId AND EntryId = @EntryId;";
+                       WHERE TagId = @TagId
+                       AND EntryId = @EntryId;";
 
         _db.SqlExecute<dynamic>(
             sql,
@@ -231,6 +230,8 @@ public class SqLiteData : ISqLiteData
                 EntryId = entry.Id
             },
             _connectionStringName);
+
+        DeleteUnusedTags(entry.Tags);
 
         var tagToRemove = entry.Tags.FirstOrDefault(t => t.Id == tag.Id);
 
