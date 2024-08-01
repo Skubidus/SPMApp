@@ -38,7 +38,7 @@ public partial class NewEntryViewModel : ObservableObject
     [ObservableProperty]
     private string? _notes;
 
-    public readonly ObservableCollection<TagModel> Tags = new();
+    public readonly ObservableCollection<TagModel> Tags = [];
 
     [ObservableProperty]
     private DateTime _dateCreated;
