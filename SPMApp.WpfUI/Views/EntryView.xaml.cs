@@ -61,7 +61,7 @@ public partial class EntryView : UserControl
     // This enables animation, styling, binding, etc...
     public static readonly DependencyProperty EntryProperty =
         DependencyProperty.Register(
-            nameof(Entry),
+            $"{nameof(EntryView)}_{nameof(Entry)}",
             typeof(EntryModel),
             typeof(EntryView),
             new PropertyMetadata(default));
