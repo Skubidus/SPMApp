@@ -35,21 +35,71 @@ public partial class EntryViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _title;
 
+    partial void OnTitleChanged(string? value)
+    {
+        if (Entry is null)
+        {
+            return;
+        }
+
+        Entry.Title = value ?? null;
+    }
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _username;
+
+    partial void OnUsernameChanged(string? value)
+    {
+        if (Entry is null)
+        {
+            return;
+        }
+
+        Entry.Username = value ?? null;
+    }
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _password;
 
+    partial void OnPasswordChanged(string? value)
+    {
+        if (Entry is null)
+        {
+            return;
+        }
+
+        Entry.Password = value ?? null;
+    }
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _websiteUrl;
 
+    partial void OnWebsiteUrlChanged(string? value)
+    {
+        if (Entry is null)
+        {
+            return;
+        }
+
+        Entry.WebsiteUrl = value ?? null;
+    }
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _notes;
+
+    partial void OnNotesChanged(string? value)
+    {
+        if (Entry is null)
+        {
+            return;
+        }
+
+        Entry.Notes = value ?? null;
+    }
 
     public readonly ObservableCollection<TagModel> Tags = [];
 
@@ -59,10 +109,7 @@ public partial class EntryViewModel : ObservableObject
     [ObservableProperty]
     private DateTime _dateModified;
 
-    public EntryViewModel(ISqLiteData db)
-    {
-        _db = db;
-    }
+    public EntryViewModel(ISqLiteData db) => _db = db;
 
     partial void OnEntryChanged(EntryModel? value)
     {
