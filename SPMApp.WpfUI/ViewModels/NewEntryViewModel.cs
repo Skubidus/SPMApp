@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace SPMApp.WpfUI.ViewModels;
-// TODO: modify this class - its a copy of EntryView
 public partial class NewEntryViewModel : ObservableObject
 {
     private readonly ISqLiteData _db;
@@ -71,7 +70,7 @@ public partial class NewEntryViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void OnGoBackButtonClick()
+    private static void OnGoBackButtonClick()
     {
         ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);
     }

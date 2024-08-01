@@ -51,7 +51,7 @@ public partial class EntryViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _notes;
 
-    public readonly ObservableCollection<TagModel> Tags = new();
+    public readonly ObservableCollection<TagModel> Tags = [];
 
     [ObservableProperty]
     private DateTime _dateCreated;
@@ -93,13 +93,13 @@ public partial class EntryViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void OnGoBackButtonClick()
+    private static void OnGoBackButtonClick()
     {
         ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);
     }
 
     [RelayCommand]
-    public void OnDeleteEntryButtonClick()
+    private void OnDeleteEntryButtonClick()
     {
         if (Entry is null)
         {
@@ -130,10 +130,10 @@ public partial class EntryViewModel : ObservableObject
             MessageBoxImage.Information);
     }
 
-    public bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;
+    private bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;
 
     [RelayCommand(CanExecute = nameof(CanClickSaveChangesButton))]
-    public void OnSaveChangesButtonClick()
+    private static void OnSaveChangesButtonClick()
     {
         // TODO: implement OnSaveChangesButtonClick() 
         throw new NotImplementedException();
