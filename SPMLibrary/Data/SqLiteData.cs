@@ -129,6 +129,11 @@ public class SqLiteData : ISqLiteData
 
     public void UpdateEntry(EntryModel entry)
     {
+        if (entry.Id <= 0)
+        {
+            throw new InvalidOperationException("Invalid entry ID.");
+        }
+
         entry.DateModified = DateTime.Now;
 
         string sql = @"UPDATE Entries
@@ -169,8 +174,36 @@ public class SqLiteData : ISqLiteData
 
     private void DeleteTag(TagModel tag)
     {
-        // TODO: implement DeleteTag()
-        throw new NotImplementedException();
+        if (tag.Id <= 0)
+        {
+            throw new InvalidOperationException("Invalid tag ID. Must be greater than 0.");
+        }
+
+        RemoveAllTagReferencesForTag(tag);
+
+        string sql = @"DELETE FROM Tags
+                       WHERE Id = @TagId;";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new { TagId = tag.Id },
+            _connectionStringName);
+    }
+
+    private void RemoveAllTagReferencesForTag(TagModel tag)
+    {
+        if (tag.Id <= 0)
+        {
+            throw new InvalidOperationException("Invalid tag ID. Must be greater than 0.");
+        }
+
+        string sql = @"DELETE FROM EntriesTags
+                       WHERE TagId = @TagId;";
+
+        _db.SqlExecute<dynamic>(
+            sql,
+            new { TagId = tag.Id },
+            _connectionStringName);
     }
 
     private void RemoveTagReferenceFromEntry(TagModel tag, EntryModel entry)
