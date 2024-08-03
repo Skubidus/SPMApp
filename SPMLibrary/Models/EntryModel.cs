@@ -38,6 +38,31 @@ public class EntryModel
         return true;
     }
 
+    public bool EqualsWithoutId(object? obj)
+    {
+        if (obj is not EntryModel
+            || obj is null)
+        {
+            return false;
+        }
+
+        var model = (EntryModel)obj;
+
+        if (model.Title != this.Title
+            || model.Username != this.Username
+            || model.Password != this.Password
+            || model.WebsiteUrl != this.WebsiteUrl
+            || model.Notes != this.Notes
+            || AreTagListsEqual(model.Tags, this.Tags) == false
+            || model.DateCreated != this.DateCreated
+            || model.DateModified != this.DateModified)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     private bool AreTagListsEqual(IEnumerable<TagModel> list1, IEnumerable<TagModel> list2)
     {
         var firstNotSecond = list1.Except(list2).ToList();
