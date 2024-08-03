@@ -58,7 +58,7 @@ public static class ViewController
         }
 
         if (typeof(TView) == typeof(NewEntryView)
-            && typeof(TParam) == typeof(NewEntryViewModel))
+            && typeof(TParam) == typeof(EntryModel))
         {
             var entry = parameter as EntryModel;
             var newEntryView = output as NewEntryView;

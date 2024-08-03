@@ -80,7 +80,10 @@ public class SqLiteData : ISqLiteData
 
     public void InsertEntry(EntryModel entry)
     {
-        string sql = @"INSERT INTO Entries (Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
+        entry.DateCreated = DateTime.Now;
+        entry.DateModified = DateTime.Now;
+
+        string sql = @"INSERT INTO Entries (Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified)
                        VALUES(@Title, @Username, @Password, @WebsiteUrl, @Notes, @DateCreated, @DateModified);";
 
         _db.SqlExecute<dynamic>(
@@ -92,8 +95,8 @@ public class SqLiteData : ISqLiteData
                 entry.Password,
                 entry.WebsiteUrl,
                 entry.Notes,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now
+                entry.DateCreated,
+                entry.DateModified
             },
             _connectionStringName);
 
