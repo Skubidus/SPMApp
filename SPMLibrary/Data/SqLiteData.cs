@@ -137,9 +137,9 @@ public class SqLiteData : ISqLiteData
         entry.DateModified = DateTime.Now;
 
         string sql = @"UPDATE Entries
-                       SET Title = @title, Username = @username, Password = @password
-                       WebsiteUrl = @websiteUrl, Notes = @notes, DateModified = @dateModified
-                       WHERE Id = @id;";
+                       SET Title = @Title, Username = @Username, Password = @Password,
+                       WebsiteUrl = @WebsiteUrl, Notes = @Notes, DateModified = @DateModified
+                       WHERE Id = @Id;";
 
         _db.SqlExecute<dynamic>(sql,
             new

@@ -180,9 +180,12 @@ public partial class EntryViewModel : ObservableObject
     private bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;
 
     [RelayCommand(CanExecute = nameof(CanClickSaveChangesButton))]
-    private static void OnSaveChangesButtonClick()
+    private void OnSaveChangesButtonClick()
     {
-        // TODO: implement OnSaveChangesButtonClick() 
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(Entry);
+
+        _db.UpdateEntry(Entry);
+        MessageBox.Show("Changes saved!");
+        OnGoBackButtonClick();
     }
 }
