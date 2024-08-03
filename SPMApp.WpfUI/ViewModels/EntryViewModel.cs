@@ -73,6 +73,9 @@ public partial class EntryViewModel : ObservableObject
         Entry.Password = value ?? null;
     }
 
+    private readonly ObservableCollection<TagModel> _tags = [];
+    public ObservableCollection<TagModel> Tags => _tags;
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _websiteUrl;
@@ -100,8 +103,6 @@ public partial class EntryViewModel : ObservableObject
 
         Entry.Notes = value ?? null;
     }
-
-    public readonly ObservableCollection<TagModel> Tags = [];
 
     [ObservableProperty]
     private DateTime _dateCreated;

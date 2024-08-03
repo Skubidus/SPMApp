@@ -44,6 +44,22 @@
 
                     <StackPanel Orientation="Vertical">
                         <Label Content="Tags:" FontWeight="Bold" />
+
+                        <ListBox x:Name="TagsListBox" ItemsSource="{Binding Path=Tags}" BorderBrush="{x:Null}" BorderThickness="0" Margin="-5 0 0 0">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="5" Padding="5 2" HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{Binding Path=Title}" FontSize="14" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
