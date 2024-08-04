@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=vm:EntryViewModel}">
-    <Grid>
+    <Grid x:Name="EntryViewGrid">
 
         <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10">
             <Grid Margin="25 0">
@@ -53,8 +53,12 @@
                             </ListBox.ItemsPanel>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="5" Padding="5 2" HorizontalAlignment="Stretch">
-                                        <TextBlock Text="{Binding Path=Title}" FontSize="14" />
+                                    <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="5" HorizontalAlignment="Stretch">
+                                        <Grid>
+                                            <Button Command="{Binding Path=DataContext.TagButtonClickCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Visibility="Visible" Opacity="0" Panel.ZIndex="10" />
+                                            <TextBlock Text="X" FontSize="14" FontWeight="ExtraBold" Padding="5 2" Foreground="Red" />
+                                            <TextBlock Text="{Binding Path=Title}" FontSize="14" Padding="20 2 5 2" />
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -74,7 +78,7 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <Button x:Name="GoBackButton" Grid.Column="0" Content="Go Back" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Left" Command="{Binding Path=GoBackButtonClickCommand}" />
                     <Button x:Name="DeleteEntryButton" Grid.Column="1" Content="Delete Entry" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Right" Command="{Binding Path=DeleteEntryButtonClickCommand}" />
                     <Button x:Name="SaveChangesButton" Grid.Column="2" Content="Save Changes" Padding="20 5" Margin="5 0 0 0" HorizontalAlignment="Left" Command="{Binding Path=SaveChangesButtonClickCommand, UpdateSourceTrigger=PropertyChanged}" />

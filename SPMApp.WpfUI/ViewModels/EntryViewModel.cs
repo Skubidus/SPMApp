@@ -189,4 +189,10 @@ public partial class EntryViewModel : ObservableObject
         MessageBox.Show("Changes saved!");
         OnGoBackButtonClick();
     }
+
+    [RelayCommand]
+    private void OnTagButtonClick(TagModel tag)
+    {
+        return;
+    }
 }
