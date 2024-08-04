@@ -65,12 +65,7 @@ public class EntryModel
 
     private bool AreTagListsEqual(IEnumerable<TagModel> list1, IEnumerable<TagModel> list2)
     {
-        var firstNotSecond = list1.Except(list2).ToList();
-        var secondNotFirst = list2.Except(list1).ToList();
-
-        bool output = (firstNotSecond.Any() == false)
-                   && (secondNotFirst.Any() == false);
-
+        var output = list1.SequenceEqual(list2);
         return output;
     }
 
