@@ -178,7 +178,22 @@ public partial class EntryViewModel : ObservableObject
             MessageBoxImage.Information);
     }
 
-    private bool CanClickSaveChangesButton => Entry?.Equals(_originalEntry) == false;
+    private bool CanClickSaveChangesButton
+    {
+        get
+        {
+            if (Entry is null
+            || _originalEntry is null)
+            {
+                return false;
+            }
+
+            var output = (Entry.Equals(_originalEntry) == false)
+                      || (EntryModel.AreTagListsEqual(_originalEntry.Tags, Tags) == false);
+
+            return output;
+        }
+    }
 
     [RelayCommand(CanExecute = nameof(CanClickSaveChangesButton))]
     private void OnSaveChangesButtonClick()
@@ -193,6 +208,10 @@ public partial class EntryViewModel : ObservableObject
     [RelayCommand]
     private void OnTagButtonClick(TagModel tag)
     {
-        return;
+        // TODO: Implement OnTagButtonClick()
+        Tags.Remove(tag);
+        //OnPropertyChanged(nameof(Tags));
+        //OnPropertyChanged(nameof(_tags));
+        //OnPropertyChanged(nameof(CanClickSaveChangesButton));
     }
 }
