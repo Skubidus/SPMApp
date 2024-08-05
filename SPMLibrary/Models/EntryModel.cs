@@ -63,7 +63,7 @@ public class EntryModel
         return true;
     }
 
-    private bool AreTagListsEqual(IEnumerable<TagModel> list1, IEnumerable<TagModel> list2)
+    public static bool AreTagListsEqual(IEnumerable<TagModel> list1, IEnumerable<TagModel> list2)
     {
         var output = list1.SequenceEqual(list2);
         return output;
