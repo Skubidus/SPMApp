@@ -71,7 +71,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <TextBox x:Name="TagTextBox" Grid.Column="1" VerticalContentAlignment="Center" Padding="5 0" Text="test" />
+                            <TextBox x:Name="TagTextBox" Grid.Column="1" VerticalContentAlignment="Center" Padding="5 0" Text="{Binding Path=Tag, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </StackPanel>
 

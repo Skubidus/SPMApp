@@ -27,7 +27,7 @@ public partial class NewEntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateEntryButtonClickCommand))]
-    private string? _title;
+    private string? _title = string.Empty;
 
     partial void OnTitleChanged(string? value)
     {
@@ -41,7 +41,7 @@ public partial class NewEntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateEntryButtonClickCommand))]
-    private string? _username;
+    private string? _username = string.Empty;
 
     partial void OnUsernameChanged(string? value)
     {
@@ -55,7 +55,7 @@ public partial class NewEntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateEntryButtonClickCommand))]
-    private string? _password;
+    private string? _password = string.Empty;
 
     partial void OnPasswordChanged(string? value)
     {
@@ -69,7 +69,7 @@ public partial class NewEntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateEntryButtonClickCommand))]
-    private string? _websiteUrl;
+    private string? _websiteUrl = string.Empty;
 
     partial void OnWebsiteUrlChanged(string? value)
     {
@@ -83,7 +83,7 @@ public partial class NewEntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateEntryButtonClickCommand))]
-    private string? _notes;
+    private string? _notes = string.Empty;
 
     partial void OnNotesChanged(string? value)
     {

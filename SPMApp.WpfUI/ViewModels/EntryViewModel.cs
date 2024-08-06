@@ -33,7 +33,7 @@ public partial class EntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
-    private string? _title;
+    private string? _title = string.Empty;
 
     partial void OnTitleChanged(string? value)
     {
@@ -47,7 +47,7 @@ public partial class EntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
-    private string? _username;
+    private string? _username = string.Empty;
 
     partial void OnUsernameChanged(string? value)
     {
@@ -61,7 +61,7 @@ public partial class EntryViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
-    private string? _password;
+    private string? _password = string.Empty;
 
     partial void OnPasswordChanged(string? value)
     {
@@ -72,9 +72,6 @@ public partial class EntryViewModel : ObservableObject
 
         Entry.Password = value ?? null;
     }
-
-    private readonly ObservableCollection<TagModel> _tags = [];
-    public ObservableCollection<TagModel> Tags => _tags;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
@@ -90,9 +87,18 @@ public partial class EntryViewModel : ObservableObject
         Entry.WebsiteUrl = value ?? null;
     }
 
+    private readonly ObservableCollection<TagModel> _tags = [];
+    public ObservableCollection<TagModel> Tags => _tags;
+
+    [ObservableProperty]
+    private string? _tag = string.Empty;
+
+    [ObservableProperty]
+    private int _tagTextBoxWidth = 100;
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
-    private string? _notes;
+    private string? _notes = string.Empty;
 
     partial void OnNotesChanged(string? value)
     {
