@@ -10,7 +10,7 @@
       d:DataContext="{d:DesignInstance Type=vm:LeftMenuViewModel}">
 
     <Grid>
-        <Border BorderThickness="1" BorderBrush="#FF2D2D2D" CornerRadius="10">
+        <Border BorderThickness="1" CornerRadius="10">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding Path=PageTitle}" FontSize="28" HorizontalAlignment="Center" />
             </StackPanel>
