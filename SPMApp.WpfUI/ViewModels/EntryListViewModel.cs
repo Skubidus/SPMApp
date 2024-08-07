@@ -99,7 +99,7 @@ public partial class EntryListViewModel : ObservableObject
         var filteredEntries = FilterEntryList(filterList);
 
         _entries.Clear();
-        filteredEntries.ForEach(e => {  _entries.Add(e); });
+        filteredEntries.ForEach(e => { _entries.Add(e); });
     }
 
     private bool CanClickClearSearchButton => IsFiltered;
@@ -144,13 +144,14 @@ public partial class EntryListViewModel : ObservableObject
     {
         ArgumentNullException.ThrowIfNull(filterList);
 
-        List<EntryModel> output = new();
+        List<EntryModel> output = [];
 
         foreach (var filter in filterList)
         {
             var filteredEntries = _entryCache.Where(e => e.Title.Contains(filter)
                                                          || e.WebsiteUrl?.Contains(filter) == true
-                                                         || e.Notes?.Contains(filter) == true);
+                                                         || e.Notes?.Contains(filter) == true
+                                                         || e.Tags.Any(t => t.Title.Contains(filter)));
 
             if (filteredEntries.Any())
             {
