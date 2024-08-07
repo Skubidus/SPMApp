@@ -94,9 +94,6 @@ public partial class EntryViewModel : ObservableObject
     private string? _tag = string.Empty;
 
     [ObservableProperty]
-    private int _tagTextBoxWidth = 100;
-
-    [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
     private string? _notes = string.Empty;
 
@@ -116,7 +113,19 @@ public partial class EntryViewModel : ObservableObject
     [ObservableProperty]
     private DateTime _dateModified;
 
-    public EntryViewModel(ISqLiteData db) => _db = db;
+    public EntryViewModel(ISqLiteData db)
+    {
+        _db = db;
+        _tags.CollectionChanged += _tags_CollectionChanged;
+    }
+
+    private void _tags_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        Debug.WriteLine("_tags has changed!");
+        OnPropertyChanged(nameof(Tags));
+        OnPropertyChanged(nameof(CanClickSaveChangesButton));
+        ((RelayCommand)SaveChangesButtonClickCommand).NotifyCanExecuteChanged();
+    }
 
     partial void OnEntryChanged(EntryModel? value)
     {
@@ -188,6 +197,8 @@ public partial class EntryViewModel : ObservableObject
     {
         get
         {
+            Debug.WriteLine("Evaluating CanClickSaveChangesButton");
+
             if (Entry is null
             || _originalEntry is null)
             {
@@ -196,6 +207,8 @@ public partial class EntryViewModel : ObservableObject
 
             var output = (Entry.Equals(_originalEntry) == false)
                       || (EntryModel.AreTagListsEqual(_originalEntry.Tags, Tags) == false);
+
+            Debug.WriteLine($"CanClickSaveChangesButton: {output}\n");
 
             return output;
         }
@@ -217,7 +230,19 @@ public partial class EntryViewModel : ObservableObject
         // TODO: Implement OnTagButtonClick()
         Tags.Remove(tag);
         //OnPropertyChanged(nameof(Tags));
-        //OnPropertyChanged(nameof(_tags));
         //OnPropertyChanged(nameof(CanClickSaveChangesButton));
+    }
+
+    [RelayCommand]
+    private void OnAddTag()
+    {
+        if (string.IsNullOrWhiteSpace(Tag))
+        {
+            return;
+        }
+
+        Tag = Tag.Replace(" ", "");
+        Tags.Add(new TagModel { Title = Tag.ToLower() });
+        Tag = string.Empty;
     }
 }
