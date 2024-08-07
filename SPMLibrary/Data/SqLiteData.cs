@@ -272,12 +272,12 @@ public class SqLiteData : ISqLiteData
     {
         string sql = "";
 
-        sql = @"INSERT INTO TagsEntries (TagId, EntryId)
+        sql = @"INSERT INTO EntriesTags (TagId, EntryId)
                 VALUES (@TagId, @EntryId);";
 
         _db.SqlExecute<dynamic>(
             sql,
-            new { tag.Id, EntryId = entry.Id },
+            new { TagId = tag.Id, EntryId = entry.Id },
             _connectionStringName);
     }
 

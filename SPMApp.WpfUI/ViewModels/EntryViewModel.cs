@@ -91,7 +91,7 @@ public partial class EntryViewModel : ObservableObject
     public ObservableCollection<TagModel> Tags => _tags;
 
     [ObservableProperty]
-    private string? _tag = string.Empty;
+    private string? _tagText = string.Empty;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveChangesButtonClickCommand))]
@@ -156,8 +156,28 @@ public partial class EntryViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private static void OnGoBackButtonClick()
+    private void OnGoBackButtonClick()
     {
+        if (Entry is null)
+        {
+            throw new InvalidOperationException("Entry can not be null here.");
+        }
+
+        if (Entry.EqualsWithoutId(_originalEntry) == false)
+        {
+            var result = MessageBox.Show(
+                "Discard everything and go back WITHOUT saving?",
+                "Go Back?",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.No);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+        }
+
         ViewController.ChangeViewTo(ViewsEnum.EntryListView, SideEnum.Right);
     }
 
@@ -197,8 +217,6 @@ public partial class EntryViewModel : ObservableObject
     {
         get
         {
-            Debug.WriteLine("Evaluating CanClickSaveChangesButton");
-
             if (Entry is null
             || _originalEntry is null)
             {
@@ -207,8 +225,6 @@ public partial class EntryViewModel : ObservableObject
 
             var output = (Entry.Equals(_originalEntry) == false)
                       || (EntryModel.AreTagListsEqual(_originalEntry.Tags, Tags) == false);
-
-            Debug.WriteLine($"CanClickSaveChangesButton: {output}\n");
 
             return output;
         }
@@ -225,24 +241,36 @@ public partial class EntryViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void OnTagButtonClick(TagModel tag)
+    private void OnRemoveTag(TagModel tag)
     {
-        // TODO: Implement OnTagButtonClick()
+        if (Entry is null)
+        {
+            throw new InvalidOperationException("Entry can not be null here.");
+        }
+
         Tags.Remove(tag);
-        //OnPropertyChanged(nameof(Tags));
-        //OnPropertyChanged(nameof(CanClickSaveChangesButton));
+        Entry.Tags.Remove(tag);
     }
 
     [RelayCommand]
     private void OnAddTag()
     {
-        if (string.IsNullOrWhiteSpace(Tag))
+        if (Entry is null)
+        {
+            throw new InvalidOperationException("Entry can not be null here.");
+        }
+
+        if (string.IsNullOrWhiteSpace(TagText))
         {
             return;
         }
 
-        Tag = Tag.Replace(" ", "");
-        Tags.Add(new TagModel { Title = Tag.ToLower() });
-        Tag = string.Empty;
+        TagText = TagText.Replace(" ", "");
+
+        var tag = new TagModel { Title = TagText.ToLower() };
+        Tags.Add(tag);
+        Entry.Tags.Add(tag);
+
+        TagText = string.Empty;
     }
 }
