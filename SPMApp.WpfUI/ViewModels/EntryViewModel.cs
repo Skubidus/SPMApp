@@ -237,6 +237,8 @@ public partial class EntryViewModel : ObservableObject
 
         _db.UpdateEntry(Entry);
         MessageBox.Show("Changes saved!");
+        _originalEntry = Entry;
+
         OnGoBackButtonClick();
     }
 
