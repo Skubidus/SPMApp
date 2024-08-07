@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=vm:NewEntryViewModel}">
-    <Grid>
+
+    <Grid x:Name="NewEntryViewGrid">
 
         <Border BorderThickness="1" CornerRadius="10">
             <Grid Margin="25 0">
@@ -45,21 +46,37 @@
                     <StackPanel Orientation="Vertical">
                         <Label Content="Tags:" FontWeight="Bold" />
 
-                        <ListBox x:Name="TagsListBox" ItemsSource="{Binding Path=Tags}" BorderBrush="{x:Null}" BorderThickness="0" Margin="-5 0 0 0">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1" CornerRadius="5" Padding="5 2" HorizontalAlignment="Stretch">
-                                        <TextBlock Text="{Binding Path=Title}" FontSize="14" />
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ListBox x:Name="TagsListBox" ItemsSource="{Binding Path=Tags}" BorderBrush="{x:Null}" BorderThickness="0" Margin="-5 0 0 0" Grid.Column="0">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1" CornerRadius="5" HorizontalAlignment="Stretch">
+                                            <Grid>
+                                                <Button Command="{Binding Path=DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Visibility="Visible" Opacity="0" Panel.ZIndex="10" />
+                                                <TextBlock Text="X" FontSize="14" FontWeight="ExtraBold" Padding="5 2" Foreground="Red" />
+                                                <TextBlock Text="{Binding Path=Title}" FontSize="14" Padding="20 2 5 2" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <TextBox x:Name="TagTextBox" Grid.Column="1" VerticalContentAlignment="Center" Padding="5 0" Text="{Binding Path=TagText, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding Path=AddTagCommand}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                        </Grid>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
@@ -72,10 +89,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <Button x:Name="GoBackButton" Grid.Column="0" Content="Go Back" Padding="20 5" Margin="0 0 5 0" HorizontalAlignment="Left" Command="{Binding Path=GoBackButtonClickCommand}" />
-                    <Button x:Name="CreateEntryButton" Grid.Column="2" Content="Create Entry" Padding="20 5" Margin="5 0 0 0" HorizontalAlignment="Left" Command="{Binding Path=CreateEntryButtonClickCommand, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button x:Name="CreateEntryButton" Grid.Column="2" Content="Create Entry" Padding="20 5" Margin="5 0 0 0" HorizontalAlignment="Left" Command="{Binding Path=SaveChangesButtonClickCommand, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
             </Grid>

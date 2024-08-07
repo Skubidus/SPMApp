@@ -124,10 +124,11 @@ public class SqLiteData : ISqLiteData
             throw new InvalidOperationException("Recently added entry was expected but not found in the database.");
         }
 
-        foreach (var tag in entry.Tags)
-        {
-            AddTagReferenceToEntry(tag, entry);
-        }
+        var tagsNotAlreadyInDb = GetTagsNotAlreadyInDb(entry.Tags);
+        tagsNotAlreadyInDb.ForEach(tag => InsertTag(tag));
+        tagsNotAlreadyInDb.ForEach(tag => tag.Id = GetTagId(tag));
+
+        entry.Tags.ForEach(tag => AddTagReferenceToEntry(tag, entry));
     }
 
     public void UpdateEntry(EntryModel entry)
