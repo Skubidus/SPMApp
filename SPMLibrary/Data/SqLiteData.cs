@@ -15,6 +15,10 @@ public class SqLiteData : ISqLiteData
         _db = db;
     }
 
+    /// <summary>
+    /// Retrieves all entries from the database, including their tags.
+    /// </summary>
+    /// <returns>List of all entries with tags.</returns>
     public List<EntryModel> GetAllEntries()
     {
         string sql = @" SELECT Id, Title, Username, Password, WebsiteUrl, Notes, DateCreated, DateModified
@@ -39,6 +43,12 @@ public class SqLiteData : ISqLiteData
         return entries;
     }
 
+    /// <summary>
+    /// Retrieves a single entry by its ID, including its tags.
+    /// </summary>
+    /// <param name="id">The ID of the entry to retrieve.</param>
+    /// <returns>The entry if found; otherwise, null.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if id is negative.</exception>
     public EntryModel? GetEntryById(int id)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(id);
@@ -78,6 +88,11 @@ public class SqLiteData : ISqLiteData
         return tags;
     }
 
+    /// <summary>
+    /// Inserts a new entry into the database and assigns tags.
+    /// </summary>
+    /// <param name="entry">The entry to insert.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the entry could not be found after insertion.</exception>
     public void InsertEntry(EntryModel entry)
     {
         entry.DateCreated = DateTime.Now;
@@ -131,6 +146,11 @@ public class SqLiteData : ISqLiteData
         entry.Tags.ForEach(tag => AddTagReferenceToEntry(tag, entry));
     }
 
+    /// <summary>
+    /// Updates an existing entry and its tags in the database.
+    /// </summary>
+    /// <param name="entry">The entry to update.</param>
+    /// <exception cref="InvalidOperationException">Thrown if the entry ID is invalid.</exception>
     public void UpdateEntry(EntryModel entry)
     {
         if (entry.Id <= 0)
@@ -358,6 +378,10 @@ public class SqLiteData : ISqLiteData
             _connectionStringName);
     }
 
+    /// <summary>
+    /// Deletes an entry and its tag references from the database.
+    /// </summary>
+    /// <param name="entry">The entry to delete.</param>
     public void DeleteEntry(EntryModel entry)
     {
         string sql = @"DELETE FROM Entries
